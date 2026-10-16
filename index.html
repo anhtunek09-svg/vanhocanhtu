@@ -44,7 +44,35 @@
   </script>
 
   <!-- Custom Design System Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css?v=20261017_mobilefix_v4">
+  <link rel="stylesheet" href="css/styles.css?v=20261017_mobile_bust_v5">
+
+  <!-- Mobile Hero Spacing Override (Bypass browser cache; Desktop stays 100% untouched) -->
+  <style id="mobile-header-spacing-fix">
+    @media (max-width: 992px) {
+      .hero-section {
+        margin-top: -100px !important;
+        padding-top: 220px !important;
+        padding-bottom: 32px !important;
+      }
+      .hero-layout-grid {
+        margin-top: 15px !important;
+      }
+    }
+    @media (max-width: 640px) {
+      .hero-section {
+        margin-top: -95px !important;
+        padding-top: 215px !important;
+        padding-bottom: 28px !important;
+      }
+      .hero-tag {
+        margin-top: 6px !important;
+        margin-bottom: 12px !important;
+      }
+      .hero-title-wrapper {
+        margin-top: 8px !important;
+      }
+    }
+  </style>
 </head>
 <body class="antialiased selection:bg-[#B65335] selection:text-[#F7F1E6]">
 
