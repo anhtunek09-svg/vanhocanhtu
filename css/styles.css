@@ -2048,12 +2048,12 @@ html:not(.dark) .top-header {
 @media (max-width: 992px) {
   .hero-section {
     margin-top: -100px;
-    padding-top: 130px;
+    padding-top: 215px !important;
     padding-bottom: 32px;
   }
   .hero-layout-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 24px;
     text-align: center;
   }
   .hero-text-col {
@@ -2061,8 +2061,8 @@ html:not(.dark) .top-header {
     text-align: center;
   }
   .hero-tag {
-    margin-top: 10px;
-    margin-bottom: 16px;
+    margin-top: 6px;
+    margin-bottom: 14px;
   }
   .hero-quote {
     margin: 0 auto 24px;
@@ -2081,20 +2081,20 @@ html:not(.dark) .top-header {
 @media (max-width: 640px) {
   .hero-section {
     margin-top: -95px;
-    padding-top: 125px !important;
+    padding-top: 210px !important;
     padding-bottom: 28px;
     padding-left: 14px;
     padding-right: 14px;
     min-height: auto;
   }
   .hero-tag {
-    margin-top: 8px;
-    margin-bottom: 14px;
+    margin-top: 4px;
+    margin-bottom: 12px;
     font-size: 10.5px;
     padding: 5px 14px;
   }
   .hero-title-3d {
-    font-size: 2.6rem;
+    font-size: 2.5rem;
     line-height: 1.08;
   }
   .hero-subtitle {
