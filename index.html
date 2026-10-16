@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="vi" class="academic-theme">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="description" content="VĂN 12 PRO LAB – Hệ sinh thái số Ngữ văn 12 chuẩn Bộ GD&ĐT 2026. Kho soạn bài 18 tác phẩm mới, phòng thi thử tương tác 0–120 phút, máy phân tích đoạn văn 200 chữ, máy tạo mở bài - kết bài và kho đề thi thử tốt nghiệp THPT.">
+  <meta name="keywords" content="Ngữ văn 12, ôn thi tốt nghiệp THPT, đọc hiểu văn 12, phân tích đoạn văn 200 chữ, mở bài kết bài văn 12, đề thi thử ngữ văn 2026">
+  <meta name="theme-color" content="#16364A">
+  <title>VĂN 12 PRO LAB – Hệ Sinh Thái Số Ngữ Văn 12</title>
+
+  <!-- Google Fonts: Playfair Display + Be Vietnam Pro + Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Three.js 3D WebGL Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- html2pdf.js for Client-Side PDF Auto-Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            academic: {
+              teal: '#16364A',
+              rust: '#B65335',
+              ivory: '#F7F1E6',
+              bronze: '#C7A46A',
+              ink: '#493A30'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Design System Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css?v=20261017_mobilefix_v3">
+</head>
+<body class="antialiased selection:bg-[#B65335] selection:text-[#F7F1E6]">
+
+  <!-- ============================================================ -->
+  <!-- 1. TOP STICKY HEADER (Navigation bar chuyên nghiệp) -->
+  <!-- ============================================================ -->
+  <header class="top-header" id="main-header">
+    <!-- Top Academic Utility Bar (Nút trên cùng bên trái - Image 1) -->
+    <div class="top-academic-bar" id="top-academic-bar">
+      <div class="top-academic-container">
+        <!-- Nút hình 1: Trên cùng bên trái -->
+        <button type="button" class="academic-pill-badge" id="btn-project-info" onclick="app.openProjectInfoModal()" aria-label="Xem thông tin chi tiết dự án THPT Yên Lãng" title="Nhấn để xem đầy đủ thông tin dự án học tập số">
+          <span class="pill-sparkle" aria-hidden="true">
+            <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+          </span>
+          <span class="pill-school">THPT Yên Lãng</span>
+          <span class="pill-separator">|</span>
+          <span class="pill-teacher"><span class="pill-label">GV:</span> Võ Thị Mỹ Ngà</span>
+          <span class="pill-separator">|</span>
+          <span class="pill-dev"><span class="pill-label-dev">Phát triển web:</span> Đỗ Anh Tú</span>
+          <span class="pill-arrow" aria-hidden="true">
+            <i data-lucide="chevron-right" style="width: 13px; height: 13px;"></i>
+          </span>
+        </button>
+
+        <!-- Bên phải: Nhãn chứng nhận học liệu -->
+        <div class="top-academic-right hidden md:flex items-center gap-2 text-xs text-slate-400">
+          <span class="status-pulse-dot" aria-hidden="true"></span>
+          <span>Dự án số hóa học liệu & Hệ thống ôn thi Ngữ văn 12</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="top-header-container">
+      <!-- Left: Logo & Brand Name -->
+      <a href="javascript:void(0)" onclick="app.navigateTo('dashboard')" class="header-brand" aria-label="Trang chủ Ngữ Văn">
+        <div class="header-logo-icon">
+          <i data-lucide="book-open" style="width: 18px; height: 18px;"></i>
+        </div>
+        <div class="header-brand-text">
+          <span class="brand-title">NGỮ VĂN</span>
+        </div>
+      </a>
+
+      <!-- Center: Navigation Buttons (7 modules) -->
+      <nav class="header-nav" id="top-nav" aria-label="Điều hướng chính">
+        <button class="nav-link active" data-view="dashboard" title="Trang chủ">
+          <i data-lucide="layout-dashboard" style="width: 15px; height: 15px;"></i>
+          <span>Trang chủ</span>
+        </button>
+        <button class="nav-link" data-view="works" title="Kho tác phẩm">
+          <i data-lucide="book-open" style="width: 15px; height: 15px;"></i>
+          <span>Kho tác phẩm</span>
+        </button>
+        <button class="nav-link" data-view="exam" title="Phòng thi thử">
+          <i data-lucide="timer" style="width: 15px; height: 15px;"></i>
+          <span>Phòng thi thử</span>
+        </button>
+        <button class="nav-link" data-view="analyzer" title="Phân tích bài viết">
+          <i data-lucide="scan-text" style="width: 15px; height: 15px;"></i>
+          <span>Phân tích bài viết</span>
+        </button>
+        <button class="nav-link" data-view="generator" title="Máy tạo mở bài">
+          <i data-lucide="sparkles" style="width: 15px; height: 15px;"></i>
+          <span>Máy tạo mở bài</span>
+        </button>
+        <button class="nav-link" data-view="exams-bank" title="Kho đề thi">
+          <i data-lucide="file-text" style="width: 15px; height: 15px;"></i>
+          <span>Kho đề thi</span>
+        </button>
+        <button class="nav-link" data-view="pdf-export" onclick="app.openPdfExportModal()" title="In đề thi & Tải PDF chuẩn Bộ GD&ĐT">
+          <i data-lucide="printer" style="width: 15px; height: 15px;"></i>
+          <span>In đề PDF</span>
+        </button>
+        <button class="nav-link" data-view="history" title="Lịch sử làm bài">
+          <i data-lucide="history" style="width: 15px; height: 15px;"></i>
+          <span>Lịch sử làm bài</span>
+        </button>
+      </nav>
+
+      <!-- Right: Theme Toggle + Mobile Menu -->
+      <div class="header-actions">
+        <!-- Light / Dark Mode Toggle Button -->
+        <button class="theme-toggle-btn" id="theme-toggle" aria-label="Chuyển chế độ Sáng / Tối" title="Chuyển chế độ Sáng / Tối">
+          <i data-lucide="moon" id="theme-icon" style="width: 18px; height: 18px;"></i>
+        </button>
+
+        <!-- Mobile Menu Toggle Button (Visible on mobile/tablet) -->
+        <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Mở menu di động">
+          <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- 2. MOBILE DRAWER SIDEBAR (Preserves IDs & event handlers) -->
+  <!-- ============================================================ -->
+  <aside class="sidebar" id="sidebar" aria-label="Menu điều hướng di động">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">V12</div>
+      <div class="sidebar-brand">
+        <span class="sidebar-brand-name">VĂN 12 PRO LAB</span>
+        <span class="sidebar-brand-sub">Hệ sinh thái số Ngữ văn 12</span>
+      </div>
+    </div>
+
+    <!-- Developer banner inside mobile drawer -->
+    <div class="p-3 mx-3 my-2 rounded-lg bg-[#B65335]/10 border border-[#B65335]/25 flex items-center justify-between gap-3 cursor-pointer" onclick="app.openProjectInfoModal()" title="Nhấn xem chi tiết dự án">
+      <div class="flex items-center gap-3">
+        <div class="dev-avatar">T</div>
+        <div class="dev-info">
+          <span class="dev-name">Đỗ Anh Tú</span>
+          <span class="dev-class">Lớp 12A2 · THPT Yên Lãng</span>
+        </div>
+      </div>
+      <i data-lucide="info" style="width: 16px; height: 16px; color: #B65335;"></i>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group">
+        <div class="nav-group-label">Tổng quan</div>
+        <button class="nav-item active" data-view="dashboard">
+          <i data-lucide="layout-dashboard"></i>
+          <span class="nav-item-text">Trang chủ</span>
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">Học tập & Ôn tập</div>
+        <button class="nav-item" data-view="works">
+          <i data-lucide="book-open"></i>
+          <span class="nav-item-text">Kho tác phẩm</span>
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">Luyện thi</div>
+        <button class="nav-item" data-view="exam">
+          <i data-lucide="timer"></i>
+          <span class="nav-item-text">Phòng thi thử</span>
+        </button>
+        <button class="nav-item" data-view="exams-bank">
+          <i data-lucide="file-text"></i>
+          <span class="nav-item-text">Kho đề thi thử</span>
+        </button>
+        <button class="nav-item" onclick="app.openPdfExportModal()">
+          <i data-lucide="printer"></i>
+          <span class="nav-item-text">In & Tải đề PDF</span>
+        </button>
+        <button class="nav-item" data-view="history">
+          <i data-lucide="history"></i>
+          <span class="nav-item-text">Lịch sử làm bài</span>
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">Công cụ viết</div>
+        <button class="nav-item" data-view="analyzer">
+          <i data-lucide="scan-text"></i>
+          <span class="nav-item-text">Phân tích bài viết</span>
+        </button>
+        <button class="nav-item" data-view="generator">
+          <i data-lucide="sparkles"></i>
+          <span class="nav-item-text">Máy tạo mở - kết bài</span>
+        </button>
+      </div>
+    </nav>
+
+    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Thu gọn hoặc đóng menu">
+      <i data-lucide="chevron-left" id="sidebar-toggle-icon"></i>
+    </button>
+  </aside>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobile-overlay" aria-hidden="true"></div>
+
+  <!-- Global Search Floating Elements for JS Compatibility -->
+  <div class="hidden" aria-hidden="true">
+    <input type="text" id="global-search-input">
+    <button id="global-search-clear"></button>
+    <span id="header-continue-text"></span>
+    <span id="breadcrumb-current">Tổng quan học tập</span>
+    <h1 id="page-title">VĂN 12 PRO LAB</h1>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 3. MAIN APPLICATION CONTENT -->
+  <!-- ============================================================ -->
+  <main class="main-content" id="main-content">
+    <div class="page-container" id="page-container" style="padding-top: 0;">
+
+      <!-- ======================================================== -->
+      <!-- VIEW 0: DASHBOARD / TRANG CHỦ -->
+      <!-- ======================================================== -->
+      <section class="page-view animate-fade-in" id="view-dashboard">
+
+        <!-- ── HERO SECTION (Điểm nhấn thị giác kết hợp Mô hình SGK 3D) ── -->
+        <section class="hero-section" id="hero">
+          <div class="hero-bg-glow" aria-hidden="true"></div>
+
+          <div class="hero-layout-grid">
+            <!-- Cột trái: Tiêu đề & Văn bản học tập -->
+            <div class="hero-text-col">
+              <!-- Label Tag -->
+              <div class="hero-tag">
+                <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+                <span>KHÔNG GIAN HỌC TẬP NGỮ VĂN 12</span>
+              </div>
+
+              <!-- 3D Main Title -->
+              <div class="hero-title-wrapper">
+                <h1 class="hero-title-3d">
+                  VĂN HỌC<br><span class="hero-title-accent">LỚP 12</span>
+                </h1>
+              </div>
+
+              <!-- Subtitle -->
+              <p class="hero-subtitle">
+                Khám phá tác phẩm · Rèn tư duy · Chinh phục kỳ thi tốt nghiệp THPT
+              </p>
+
+              <!-- Lead Quote -->
+              <p class="hero-quote">
+                “Mỗi trang văn mở ra một thế giới. Mỗi bài học bắt đầu từ chính bạn.”
+              </p>
+
+              <!-- 2 Action Buttons -->
+              <div class="hero-actions">
+                <button class="btn-hero-primary" onclick="app.navigateTo('works')">
+                  <i data-lucide="book-open" style="width: 18px; height: 18px;"></i>
+                  <span>Khám phá tác phẩm</span>
+                </button>
+                <button class="btn-hero-secondary" onclick="app.navigateTo('exam')">
+                  <i data-lucide="timer" style="width: 18px; height: 18px;"></i>
+                  <span>Bắt đầu luyện thi</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Cột phải: Mô hình Sách Giáo Khoa 3D Ngữ văn 12 -->
+            <div class="hero-book-col">
+              <div class="book-3d-wrapper" id="book-3d-wrapper">
+                <!-- Radial glow aura behind book -->
+                <div class="book-3d-glow" aria-hidden="true"></div>
+
+                <!-- Edition badge -->
+                <div class="book-badge-edition">
+                  <span class="status-pulse-dot" style="background: #10B981; box-shadow: 0 0 8px #10B981;" aria-hidden="true"></span>
+                  <span>SÁCH NGỮ VĂN 12 · KẾT NỐI TRI THỨC</span>
+                </div>
+
+                <!-- WebGL 3D Canvas -->
+                <canvas id="book-3d-canvas" class="book-3d-canvas" aria-label="Mô hình 3D sách giáo khoa Ngữ văn 12 - Kết nối tri thức"></canvas>
+
+                <!-- Fallback container when WebGL is unavailable -->
+                <div id="book-fallback-container" class="book-fallback-container hidden">
+                  <img id="book-fallback-img" src="assets/bia-ngu-van-12.jpg" alt="Bìa sách giáo khoa Ngữ văn 12" class="book-fallback-img">
+                  <span class="text-xs text-slate-400 mt-2">Sách giáo khoa Ngữ văn 12 (Tập 1)</span>
+                </div>
+
+                <!-- Interactive Floating Controls Bar -->
+                <div class="book-controls-bar">
+                  <button type="button" class="book-ctrl-pill active" id="btn-toggle-book-rotate" aria-label="Bật hoặc tạm dừng tự xoay sách" title="Tạm dừng / Bật tự xoay">
+                    <i data-lucide="rotate-cw" style="width: 13px; height: 13px;"></i>
+                    <span id="label-book-rotate">Tự xoay: Bật</span>
+                  </button>
+                  <button type="button" class="book-ctrl-pill" id="btn-reset-book-view" aria-label="Đưa sách về góc nhìn chuẩn 3/4" title="Trở về góc nhìn chuẩn 3/4">
+                    <i data-lucide="compass" style="width: 13px; height: 13px;"></i>
+                    <span>Góc chuẩn</span>
+                  </button>
+                </div>
+
+                <!-- Drag hint -->
+                <div class="book-drag-hint">
+                  <i data-lucide="move" style="width: 12px; height: 12px;"></i>
+                  <span>Rê chuột hoặc vuốt để xoay sách 3D</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Minimal Scroll Indicator (Matching reference image) -->
+          <a href="#hero-countdown-container" class="hero-scroll-hint" aria-label="Cuộn xuống để xem bảng đếm ngược và kho tài liệu">
+            <span>Khám phá kho tri thức</span>
+            <i data-lucide="chevron-down" style="width: 18px; height: 18px;"></i>
+          </a>
+        </section>
+
+        <!-- ── BẢNG ĐẾM NGƯỢC THỜI GIAN THỰC — KỲ THI TỐT NGHIỆP THPT 2027 ── -->
+        <div class="hero-countdown-container" id="hero-countdown-container">
+          <div class="countdown-card-glass">
+            <!-- Ambient glow behind countdown -->
+            <div class="countdown-ambient-glow" aria-hidden="true"></div>
+
+            <!-- Header row of countdown -->
+            <div class="countdown-header-row">
+              <div class="countdown-title-group">
+                <div class="countdown-badge-live">
+                  <span class="live-dot" aria-hidden="true"></span>
+                  <span>ĐẾM NGƯỢC THỜI GIAN THỰC</span>
+                </div>
+                <h3 class="countdown-main-title">
+                  Kỳ Thi Tốt Nghiệp THPT Quốc Gia 2027
+                </h3>
+                <p class="countdown-subtitle">
+                  Khóa 2024 – 2027 · Dự kiến diễn ra ngày <strong>25/06/2027 (07:30 sáng)</strong>
+                </p>
+              </div>
+
+              <div class="countdown-header-actions hidden md:flex items-center gap-2">
+                <div class="countdown-tag-exam">
+                  <i data-lucide="graduation-cap" style="width: 15px; height: 15px; color: #F59E0B;"></i>
+                  <span>Môn Ngữ Văn: Bài thi mở màn</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 Big Countdown Digit Boxes -->
+            <div class="countdown-digits-grid">
+              <!-- NGÀY -->
+              <div class="countdown-box box-days">
+                <div class="box-digit-val" id="countdown-days">---</div>
+                <div class="box-digit-label">NGÀY</div>
+              </div>
+
+              <!-- Dấu phân cách -->
+              <div class="countdown-colon">:</div>
+
+              <!-- GIỜ -->
+              <div class="countdown-box box-hours">
+                <div class="box-digit-val" id="countdown-hours">--</div>
+                <div class="box-digit-label">GIỜ</div>
+              </div>
+
+              <!-- Dấu phân cách -->
+              <div class="countdown-colon">:</div>
+
+              <!-- PHÚT -->
+              <div class="countdown-box box-minutes">
+                <div class="box-digit-val" id="countdown-minutes">--</div>
+                <div class="box-digit-label">PHÚT</div>
+              </div>
+
+              <!-- Dấu phân cách -->
+              <div class="countdown-colon">:</div>
+
+              <!-- GIÂY -->
+              <div class="countdown-box box-seconds">
+                <div class="box-digit-val" id="countdown-seconds">--</div>
+                <div class="box-digit-label">GIÂY</div>
+              </div>
+            </div>
+
+            <!-- Progress bar & Motivation row -->
+            <div class="countdown-footer-row">
+              <div class="countdown-progress-wrapper">
+                <div class="flex items-center justify-between text-xs mb-1.5">
+                  <span class="text-slate-300 font-medium">
+                    <i data-lucide="compass" style="width: 13px; height: 13px; display: inline-block; vertical-align: middle; margin-right: 4px; color: #38BDF8;"></i>
+                    Hành trình 3 năm THPT (2024 – 2027)
+                  </span>
+                  <span class="text-sky-400 font-bold font-mono" id="countdown-progress-pct">--%</span>
+                </div>
+                <div class="countdown-progress-track">
+                  <div class="countdown-progress-bar" id="countdown-progress-bar" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- Motivational Quote & Target Button -->
+              <div class="countdown-motivation-box" onclick="app.cycleCountdownQuote()" title="Nhấn để đổi câu nói truyền cảm hứng" style="cursor: pointer;">
+                <p class="motivation-quote" id="countdown-quote">
+                  “Mỗi ngày nỗ lực là một bước gần hơn tới cánh cổng trường Đại học mơ ước!”
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── TÌM KIẾM VĂN HỌC (Nằm ngay dưới Hero) ── -->
+        <section class="home-search-section" id="home-search-section">
+          <div class="section-header-academic">
+            <h2 class="section-title-academic">Khám phá kho tàng văn học</h2>
+            <p class="section-desc-academic">
+              Tìm tác phẩm, tác giả, kiến thức trọng tâm và tài liệu luyện thi Ngữ văn 12 chương trình mới nhất 2026.
+            </p>
+          </div>
+
+          <!-- Wide Search Bar -->
+          <div class="search-box-wrapper">
+            <div class="search-box-input-group">
+              <i data-lucide="search" class="search-icon"></i>
+              <input type="text" id="home-search-input" class="home-search-input" placeholder="Nhập tên tác phẩm, tác giả hoặc chủ đề cần tìm..." autocomplete="off">
+              <button type="button" id="home-search-clear" class="home-search-clear-btn hidden" aria-label="Xóa từ khóa tìm kiếm">
+                <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+              </button>
+            </div>
+            <div class="flex items-center justify-between mt-2 px-1 text-xs text-slate-400">
+              <span id="home-search-count">18 tác phẩm</span>
+              <span>Hỗ trợ tìm kiếm tiếng Việt không dấu & nhấn Enter để mở</span>
+            </div>
+          </div>
+
+          <!-- Quick Category Filters -->
+          <div class="category-chips-row">
+            <button class="chip-home-filter active" data-category="all">
+              <span>Tất cả</span>
+              <span class="chip-count">18</span>
+            </button>
+            <button class="chip-home-filter" data-category="tho">
+              <span>Thơ</span>
+              <span class="chip-count">9</span>
+            </button>
+            <button class="chip-home-filter" data-category="truyen">
+              <span>Truyện</span>
+              <span class="chip-count">8</span>
+            </button>
+            <button class="chip-home-filter" data-category="ky">
+              <span>Ký – Phóng sự</span>
+              <span class="chip-count">1</span>
+            </button>
+            <button class="chip-home-filter" data-category="nghi-luan">
+              <span>Nghị luận</span>
+              <span class="chip-count">5</span>
+            </button>
+            <button class="chip-home-filter" data-category="on-thi">
+              <span>Ôn thi THPT</span>
+              <span class="chip-count">10</span>
+            </button>
+          </div>
+
+          <!-- Featured Works Preview Grid (Real data from Module 1) -->
+          <div class="works-preview-grid" id="home-featured-works-grid">
+            <!-- Rendered dynamically by app.initHomeSearch() -->
+          </div>
+        </section>
+
+        <!-- ── KHU VỰC CHỨC NĂNG (Bento Grid EdTech) ── -->
+        <section class="bento-hub-section" id="bento-hub">
+          <div class="section-header-academic">
+            <h2 class="section-title-academic">Hệ Sinh Thái Công Cụ Học Tập</h2>
+            <p class="section-desc-academic">
+              Các module học tập chuyên sâu được thiết kế khoa học, tối ưu hóa toàn diện cho học sinh lớp 12.
+            </p>
+          </div>
+
+          <!-- Nhóm 1: Học tác phẩm -->
+          <div class="mb-6">
+            <div class="edtech-group-title">
+              <i data-lucide="book-marked" class="text-indigo-400" style="width: 20px; height: 20px;"></i>
+              <span>Nhóm 1: Học tác phẩm</span>
+              <span class="edtech-group-tag">Chương trình mới 2026</span>
+            </div>
+
+            <div class="card card-glass p-6 md:p-8 hover:border-[#C7A46A] transition-all cursor-pointer" onclick="app.navigateTo('works')">
+              <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div class="max-w-3xl">
+                  <div class="flex items-center gap-3 mb-3">
+                    <span class="badge badge-accent">Trọng tâm SGK</span>
+                    <span class="text-xs text-slate-400">SGK Kết nối tri thức & Bộ GD&ĐT</span>
+                  </div>
+                  <h3 class="text-2xl font-bold mb-2 flex items-center gap-2" style="color: var(--text-primary);">
+                    <span>Kho soạn bài thông minh</span>
+                    <i data-lucide="arrow-up-right" class="text-[#B65335]" style="width: 22px; height: 22px;"></i>
+                  </h3>
+                  <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">
+                    Tra cứu đầy đủ 18 tác phẩm Ngữ văn 12 mới nhất. Khám phá tiểu sử tác giả, hoàn cảnh sáng tác, bố cục, phân tích chi tiết nội dung – nghệ thuật và gợi ý trả lời hệ thống câu hỏi trong sách giáo khoa.
+                  </p>
+                  <div class="flex flex-wrap gap-2 text-xs" style="color: var(--text-tertiary);">
+                    <span class="px-2.5 py-1 rounded" style="background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-primary);">Tây Tiến</span>
+                    <span class="px-2.5 py-1 rounded" style="background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-primary);">Xuân Tóc Đỏ cứu quốc</span>
+                    <span class="px-2.5 py-1 rounded" style="background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-primary);">Mùa lá rụng trong vườn</span>
+                    <span class="px-2.5 py-1 rounded" style="background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-primary);">Muối của rừng</span>
+                    <span class="px-2.5 py-1 rounded" style="background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-primary);">+14 tác phẩm khác</span>
+                  </div>
+                </div>
+
+                <div class="flex-shrink-0">
+                  <button class="btn btn-primary" onclick="event.stopPropagation(); app.navigateTo('works');">
+                    <i data-lucide="book-open"></i>
+                    <span>Khám phá 18 tác phẩm</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nhóm 2: Luyện thi (3 cards) -->
+          <div class="mb-6">
+            <div class="edtech-group-title">
+              <i data-lucide="trophy" class="text-sky-400" style="width: 20px; height: 20px;"></i>
+              <span>Nhóm 2: Luyện thi tốt nghiệp THPT</span>
+              <span class="edtech-group-tag">Thực chiến</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <!-- Card 1: Phòng thi thử -->
+              <div class="card p-6 hover:border-sky-500/50 transition-all cursor-pointer flex flex-col justify-between" onclick="app.navigateTo('exam')">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="card-icon info mb-0" style="width: 40px; height: 40px;">
+                      <i data-lucide="timer"></i>
+                    </div>
+                    <span class="badge badge-info">0 – 120 Phút · Tự động chấm điểm</span>
+                  </div>
+                  <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Phòng thi thử Tốt nghiệp THPT 2026</h3>
+                  <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">
+                    Chọn đề thi trong kho 10 đề chuẩn, tùy chỉnh thời gian từ 0 đến 120 phút. Mỗi câu có ô trả lời riêng; tự động khóa phòng thi khi hết giờ và lưu vào Lịch sử. Tự động chấm điểm theo tiêu chí Bộ GD&ĐT 2026.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-4 text-sm" style="border-top: 1px solid var(--border);">
+                  <span style="color: var(--text-tertiary);">Đọc hiểu (4đ) + NLXH (2đ) + NLVH (4đ)</span>
+                  <span class="text-sky-600 dark:text-sky-400 font-semibold flex items-center gap-1">
+                    Vào phòng thi <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Card 2: Kho đề thi thử -->
+              <div class="card p-6 hover:border-[#C7A46A] transition-all cursor-pointer flex flex-col justify-between" onclick="app.navigateTo('exams-bank')">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="card-icon accent mb-0" style="width: 40px; height: 40px;">
+                      <i data-lucide="file-text"></i>
+                    </div>
+                    <span class="badge badge-accent">120 Phút · 10 Đề chuẩn + Cẩm nang</span>
+                  </div>
+                  <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Kho đề thi thử & Cẩm nang 9+</h3>
+                  <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">
+                    Tuyển tập 10 đề thi thử tốt nghiệp THPT hoàn chỉnh kèm 4 cẩm nang chiến thuật 9+. Bao gồm bảng ma trận đề phân hóa, đề bài chi tiết, hướng dẫn chấm điểm và 10 bài văn mẫu nghị luận xã hội & văn học đạt điểm 9+.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-4 text-sm" style="border-top: 1px solid var(--border);">
+                  <span style="color: var(--text-tertiary);">Có tính năng In / Lưu PDF</span>
+                  <span class="text-indigo-600 dark:text-indigo-400 font-semibold flex items-center gap-1">
+                    Xem kho đề <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Card 3: Lịch sử làm bài -->
+              <div class="card p-6 hover:border-[#B65335] transition-all cursor-pointer flex flex-col justify-between" onclick="app.navigateTo('history')">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="card-icon info mb-0" style="width: 40px; height: 40px; background: rgba(182, 83, 53, 0.12); color: var(--accent);">
+                      <i data-lucide="history"></i>
+                    </div>
+                    <span class="badge badge-accent" id="bento-history-badge">Lưu trữ tự động</span>
+                  </div>
+                  <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Lịch sử làm bài & Bảng điểm số</h3>
+                  <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">
+                    Tra cứu toàn bộ các bài thi đã làm trong phòng thi thử. Xem lại bài làm của bạn, phổ điểm chi tiết 3 phần và lời nhận xét đánh giá năng lực của giáo viên AI theo chuẩn Bộ GD&ĐT 2026.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-4 text-sm" style="border-top: 1px solid var(--border);">
+                  <span style="color: var(--text-tertiary);">Xem lại bài làm & nhận xét</span>
+                  <span class="text-[#B65335] font-semibold flex items-center gap-1">
+                    Xem lịch sử <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nhóm 3: Công cụ viết (2 cards) -->
+          <div class="mb-6">
+            <div class="edtech-group-title">
+              <i data-lucide="pen-tool" class="text-amber-400" style="width: 20px; height: 20px;"></i>
+              <span>Nhóm 3: Công cụ hỗ trợ viết văn</span>
+              <span class="edtech-group-tag">Thuật toán chuẩn hóa</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <!-- Card: Máy phân tích bài viết -->
+              <div class="card p-6 hover:border-amber-500/50 transition-all cursor-pointer flex flex-col justify-between" onclick="app.navigateTo('analyzer')">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="card-icon warning mb-0" style="width: 40px; height: 40px;">
+                      <i data-lucide="scan-text"></i>
+                    </div>
+                    <span class="badge badge-warning">Real-time Check</span>
+                  </div>
+                  <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Máy phân tích bài viết</h3>
+                  <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">
+                    Hệ thống rà soát dung lượng 200 từ (đoạn NLXH) và 600 từ (bài NLVH). Tự động phát hiện lỗi xuống dòng sai quy chuẩn, thống kê các từ nối liên kết và cảnh báo lặp từ ngữ.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-4 text-sm" style="border-top: 1px solid var(--border);">
+                  <span style="color: var(--text-tertiary);">Kiểm tra quy chuẩn Bộ GD&ĐT</span>
+                  <span class="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
+                    Kiểm tra bài viết <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Card: Máy tạo mở bài & kết bài -->
+              <div class="card p-6 hover:border-emerald-500/50 transition-all cursor-pointer flex flex-col justify-between" onclick="app.navigateTo('generator')">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="card-icon success mb-0" style="width: 40px; height: 40px;">
+                      <i data-lucide="sparkles"></i>
+                    </div>
+                    <span class="badge badge-success">3 Phong cách 9+</span>
+                  </div>
+                  <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Máy tạo mở bài & Kết bài</h3>
+                  <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">
+                    Gợi ý tức thì 2 mở bài và 2 kết bài mẫu đạt điểm 9+ cho tất cả 18 tác phẩm theo các phong cách nghị luận kinh điển: Trực tiếp, Gián tiếp (triết lý, nhận định) và Tương phản.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-4 text-sm" style="border-top: 1px solid var(--border);">
+                  <span style="color: var(--text-tertiary);">18 tác phẩm · 1 click sao chép</span>
+                  <span class="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                    Tạo mở bài ngay <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                  </span>
+                </div>
+              </div>
+          </div>
+
+          <!-- Nhóm 4: Chuyên đề bứt phá điểm 9+ (2 cards) -->
+          <div class="mb-6">
+            <div class="edtech-group-title">
+              <i data-lucide="sparkles" class="text-[#B65335]" style="width: 20px; height: 20px;"></i>
+              <span>Nhóm 4: Chuyên đề bứt phá điểm 9+</span>
+              <span class="edtech-group-tag" style="background: rgba(182, 83, 53, 0.1); color: #B65335; border: 1px solid rgba(182, 83, 53, 0.3);">Phân hóa cao</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <!-- Card 1: Chuyên đề So sánh văn học -->
+              <div class="card p-6 hover:border-[#C7A46A] transition-all cursor-pointer flex flex-col justify-between" onclick="app.openComparisonModal()">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="card-icon accent mb-0" style="width: 40px; height: 40px; background: rgba(182, 83, 53, 0.12); color: #B65335;">
+                      <i data-lucide="git-compare"></i>
+                    </div>
+                    <span class="badge" style="background: rgba(182, 83, 53, 0.1); color: #B65335; border: 1px solid rgba(182, 83, 53, 0.3);">3 Chuyên đề · So sánh 9+</span>
+                  </div>
+                  <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Chuyên đề So sánh văn học</h3>
+                  <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">
+                    Tuyển tập 3 dạng đề so sánh văn học kinh điển: Sông Đà vs Sông Hương, Mị vs Thị, Lính Tây Tiến vs Lính Đồng chí. Phân tích chi tiết điểm tương đồng, nét độc đáo từng tác giả và khái quát lý giải nguyên nhân sự khác biệt.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-4 text-sm" style="border-top: 1px solid var(--border);">
+                  <span style="color: var(--text-tertiary);">Câu hỏi phân hóa 8.5 – 9.5đ</span>
+                  <span class="text-[#B65335] font-semibold flex items-center gap-1">
+                    Khám phá chuyên đề <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Card 2: Cẩm nang Biểu đạt & Công thức 9+ -->
+              <div class="card p-6 hover:border-emerald-500/50 transition-all cursor-pointer flex flex-col justify-between" onclick="app.openExpressionModal()">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="card-icon success mb-0" style="width: 40px; height: 40px; background: rgba(16, 185, 129, 0.15); color: #34d399;">
+                      <i data-lucide="book-open-check"></i>
+                    </div>
+                    <span class="badge badge-success">Barem Bộ GD&ĐT</span>
+                  </div>
+                  <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Cẩm nang Biểu đạt & Công thức 9+</h3>
+                  <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary);">
+                    Hệ thống hóa toàn diện 6 phương thức biểu đạt (dấu hiệu nhận biết, tác phẩm Ngữ văn 12, mẹo thi Đọc hiểu) và 4 biểu thức công thức chuẩn barem: Đọc hiểu 0.75đ, BPTT 3 tầng 1.0đ, Đoạn văn NLXH 200 chữ G-B-C-P-R, Kỹ thuật NLVH 9+.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between pt-4 text-sm" style="border-top: 1px solid var(--border);">
+                  <span style="color: var(--text-tertiary);">Kèm kho nhận định lý luận</span>
+                  <span class="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                    Xem cẩm nang & công thức <i data-lucide="chevron-right" style="width: 16px; height: 16px;"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card: Mục tiêu học hôm nay (Checklist) -->
+          <div class="card card-glass p-6">
+            <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+              <div class="flex items-center gap-3">
+                <div class="card-icon success mb-0" style="width: 34px; height: 34px;">
+                  <i data-lucide="check-circle-2" style="width: 18px; height: 18px;"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-bold" style="color: var(--text-primary);">Mục tiêu học hôm nay</h3>
+                  <p class="text-xs text-slate-400">Lộ trình cá nhân hóa tự động ghi nhớ tiến độ</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="badge badge-accent" id="daily-goals-count">0/4 hoàn thành</span>
+                <button class="btn btn-sm btn-ghost" onclick="app.resetDailyGoals()" title="Đặt lại checklist">
+                  <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="progress-bar mb-4">
+              <div class="progress-fill success" id="daily-goals-progress" style="width: 0%;"></div>
+            </div>
+
+            <div class="flex flex-col gap-2" id="daily-goals-list">
+              <!-- Checklist injected dynamically -->
+            </div>
+          </div>
+
+          <!-- Hidden elements to preserve JS compatibility -->
+          <div class="hidden" aria-hidden="true">
+            <span id="today-date-badge"></span>
+            <span id="greeting-title"></span>
+            <span id="dashboard-recent-title"></span>
+            <span id="dashboard-last-time"></span>
+            <div id="dashboard-recent-progress"></div>
+            <button id="header-continue-btn" onclick="app.continueLastWork()"></button>
+          </div>
+        </section>
+
+        <!-- ── THÔNG TIN GIÁO VIÊN VÀ NHÀ PHÁT TRIỂN (Trang trọng gần cuối) ── -->
+        <section class="academic-section" id="credentials-section">
+          <div class="section-header-academic">
+            <div class="hero-tag mb-2">
+              <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
+              <span>THÔNG TIN HỌC THUẬT & PHÁT TRIỂN</span>
+            </div>
+            <h2 class="section-title-academic">Ban Chỉ Đạo & Nhà Phát Triển</h2>
+            <p class="section-desc-academic">
+              Dự án chuyển đổi số giáo dục môn Ngữ văn 12 tại Trường THPT Yên Lãng, hướng tới chuẩn hóa kỳ thi tốt nghiệp THPT 2026.
+            </p>
+          </div>
+
+          <div class="credentials-grid">
+            <!-- 1. Giáo viên phụ trách -->
+            <div class="academic-card">
+              <div class="academic-card-header">
+                <div class="academic-card-icon">
+                  <i data-lucide="award" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div>
+                  <span class="academic-card-label">GIÁO VIÊN PHỤ TRÁCH</span>
+                </div>
+              </div>
+              <h3 class="academic-card-name">Võ Thị Mỹ Ngà</h3>
+              <p class="academic-card-sub">Tổ Ngữ Văn — THPT Yên Lãng</p>
+              <p class="academic-card-extra">
+                Chỉ đạo chuyên môn, cố vấn nội dung học thuật và định hướng barem chấm thi theo chuẩn Bộ Giáo dục & Đào tạo.
+              </p>
+            </div>
+
+            <!-- 2. Đơn vị & Khóa học -->
+            <div class="academic-card">
+              <div class="academic-card-header">
+                <div class="academic-card-icon">
+                  <i data-lucide="school" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div>
+                  <span class="academic-card-label">ĐƠN VỊ & KHÓA HỌC</span>
+                </div>
+              </div>
+              <h3 class="academic-card-name">Trường THPT Yên Lãng</h3>
+              <p class="academic-card-sub">Khóa: 2024 – 2027</p>
+              <p class="academic-card-extra">
+                Địa bàn học tập và ứng dụng thực tiễn của nền tảng VĂN 12 PRO LAB trong các giờ học chính khóa và ôn thi tốt nghiệp.
+              </p>
+            </div>
+
+            <!-- 3. Năm học & Bộ môn -->
+            <div class="academic-card">
+              <div class="academic-card-header">
+                <div class="academic-card-icon">
+                  <i data-lucide="calendar" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div>
+                  <span class="academic-card-label">NĂM HỌC & BỘ MÔN</span>
+                </div>
+              </div>
+              <h3 class="academic-card-name">Năm học: 2026 – 2027</h3>
+              <p class="academic-card-sub">Môn: Ngữ Văn · Lớp 12</p>
+              <p class="academic-card-extra">
+                Chương trình Giáo dục phổ thông mới 2026 với cấu trúc ma trận đề thi phân hóa cao và tiêu chuẩn đánh giá năng lực.
+              </p>
+            </div>
+
+            <!-- 4. Thiết kế & Phát triển -->
+            <div class="academic-card cursor-pointer" onclick="app.openProjectInfoModal()" title="Nhấn xem chi tiết dự án">
+              <div class="academic-card-header">
+                <div class="academic-card-icon">
+                  <i data-lucide="code-2" style="width: 20px; height: 20px;"></i>
+                </div>
+                <div>
+                  <span class="academic-card-label">PHÁT TRIỂN HỆ THỐNG WEB</span>
+                </div>
+              </div>
+              <h3 class="academic-card-name">Đỗ Anh Tú</h3>
+              <p class="academic-card-sub">Lớp 12A2 · THPT Yên Lãng</p>
+              <p class="academic-card-extra">
+                Xây dựng kiến trúc hệ thống, thiết kế giao diện UI/UX và số hóa toàn bộ dữ liệu học liệu VĂN 12 PRO LAB.
+              </p>
+            </div>
+          </div>
+        </section>
+
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 1: MODULE 1 – KHO SOẠN BÀI (works) -->
+      <!-- ======================================================== -->
+      <section class="page-view hidden" id="view-works">
+        <!-- List View -->
+        <div id="works-list-container">
+          <div class="card card-flat mb-4" style="background: var(--bg-card); border: 1px solid var(--border);">
+            <div class="flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Kho soạn bài thông minh</h2>
+                <p style="font-size: 13px; color: var(--text-secondary);">
+                  Tổng hợp 18 tác phẩm Ngữ văn 12 mới nhất (2026) với phân tích tác giả, hoàn cảnh, nội dung chi tiết và câu hỏi SGK.
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="badge badge-accent" id="works-results-badge">18 tác phẩm</span>
+                <button class="btn btn-sm btn-secondary hidden" id="works-clear-filter" onclick="app.clearWorksFilter()">
+                  <i data-lucide="x"></i> Xóa bộ lọc
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="flex items-center flex-wrap gap-2 mt-4 pt-3" style="border-top: 1px solid var(--border);">
+              <span style="font-size: 12px; font-weight: 600; color: var(--text-tertiary); margin-right: 4px;">Tập sách:</span>
+              <button class="chip active" data-volume="all" onclick="app.setVolumeFilter('all')">Tất cả</button>
+              <button class="chip" data-volume="1" onclick="app.setVolumeFilter('1')">Tập 1</button>
+              <button class="chip" data-volume="2" onclick="app.setVolumeFilter('2')">Tập 2</button>
+
+              <div style="height: 20px; width: 1px; background: var(--border); margin: 0 8px;"></div>
+
+              <span style="font-size: 12px; font-weight: 600; color: var(--text-tertiary); margin-right: 4px;">Bài học:</span>
+              <select class="form-select" id="works-lesson-select" onchange="app.setLessonFilter(this.value)" style="width: auto; padding: 4px 12px; font-size: 13px;">
+                <option value="all">Tất cả các bài</option>
+                <option value="1">Bài 1: Khát vọng non sông</option>
+                <option value="2">Bài 2: Vẻ đẹp người lính</option>
+                <option value="3">Bài 3: Đất nước & Nhân dân</option>
+                <option value="4">Bài 4: Tình yêu đôi lứa</option>
+                <option value="5">Bài 5: Sức sống tiềm tàng</option>
+                <option value="6">Bài 6: Khát vọng sống</option>
+                <option value="7">Bài 7: Triết lý nhân sinh</option>
+                <option value="8">Bài 8: Bi kịch cuộc đời</option>
+                <option value="9">Bài 9: Linh hồn xứ Huế</option>
+              </select>
+
+              <!-- Search Input inside Works -->
+              <div class="search-bar" style="margin-left: auto; width: 220px;">
+                <i data-lucide="search"></i>
+                <input type="text" id="works-search-input" placeholder="Tìm tác phẩm, tác giả..." oninput="app.handleWorksSearch(this.value)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Works Cards Grid -->
+          <div class="works-preview-grid" id="works-grid">
+            <!-- Rendered dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- Work Detail View (Hidden by default) -->
+        <div id="work-detail-container" class="hidden animate-fade-in">
+          <!-- Header bar with Back button & actions -->
+          <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <button class="btn btn-secondary" onclick="app.backToWorksList()" title="Quay lại danh sách 18 tác phẩm">
+                <i data-lucide="arrow-left"></i> Quay lại danh sách
+              </button>
+              <button class="btn btn-ghost" onclick="app.navigateTo('dashboard')" title="Quay về Trang chủ">
+                <i data-lucide="home" style="width: 15px; height: 15px;"></i> Trang chủ
+              </button>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <button class="btn btn-secondary" id="tts-toggle-btn" onclick="app.toggleSpeech()" title="Nghe giọng đọc văn học bằng Web Speech API">
+                <i data-lucide="volume-2"></i> <span id="tts-btn-label">Nghe giọng đọc</span>
+              </button>
+              <button class="btn btn-ghost" onclick="app.copyCurrentWorkFull()" title="Sao chép toàn bộ kiến thức">
+                <i data-lucide="copy"></i> Sao chép toàn bộ
+              </button>
+              <button class="btn btn-primary" onclick="app.createIntroForCurrentWork()">
+                <i data-lucide="sparkles"></i> Tạo mở bài cho bài này
+              </button>
+            </div>
+          </div>
+
+          <!-- Work Header Card -->
+          <div class="card card-glass mb-4" id="work-detail-hero">
+            <!-- Injected via JS -->
+          </div>
+
+          <!-- 6 Detail Tabs -->
+          <div class="tabs mb-4 flex-wrap" id="work-detail-tabs" role="tablist">
+            <button class="tab-btn active" data-tab="author" role="tab" onclick="app.switchWorkTab('author')">
+              <i data-lucide="user" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
+              1. Tác giả
+            </button>
+            <button class="tab-btn" data-tab="work" role="tab" onclick="app.switchWorkTab('work')">
+              <i data-lucide="book" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
+              2. Tác phẩm
+            </button>
+            <button class="tab-btn" data-tab="analysis" role="tab" onclick="app.switchWorkTab('analysis')">
+              <i data-lucide="file-text" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
+              3. Nội dung & Nghệ thuật
+            </button>
+            <button class="tab-btn" data-tab="questions" role="tab" onclick="app.switchWorkTab('questions')">
+              <i data-lucide="help-circle" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
+              4. Câu hỏi SGK & Đáp án
+            </button>
+            <button class="tab-btn" data-tab="essay" role="tab" onclick="app.switchWorkTab('essay')">
+              <i data-lucide="pen-tool" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
+              5. Dàn ý 9+ & Nhận định
+            </button>
+            <button class="tab-btn" data-tab="expression" role="tab" onclick="app.switchWorkTab('expression')">
+              <i data-lucide="sparkles" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
+              6. Bút pháp & Biểu đạt
+            </button>
+          </div>
+
+          <!-- Tab Content Display Area -->
+          <div class="card" id="work-tab-content" style="min-height: 400px; padding: 28px;">
+            <!-- Tab content injected dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 2: MODULE 2 – PHÒNG THI THỬ TỐT NGHIỆP THPT QUỐC GIA 2026 (exam) -->
+      <!-- ======================================================== -->
+      <section class="page-view hidden" id="view-exam">
+        <!-- Exam Control Header -->
+        <div class="card card-flat mb-4" style="background: var(--bg-card); border: 1px solid var(--border);">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <div class="flex items-center gap-3">
+              <div class="card-icon info" style="margin-bottom: 0;">
+                <i data-lucide="timer"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1 flex-wrap">
+                  <h2 style="font-size: 1.25rem; font-weight: 700;" id="exam-title-display">Phòng thi thử Tốt nghiệp THPT Quốc gia 2026</h2>
+                  <span class="badge badge-accent" id="exam-points-badge">10.0 điểm</span>
+                  <span class="badge badge-info" id="exam-genre-badge">Thơ hiện đại</span>
+                </div>
+                <p style="font-size: 13px; color: var(--text-secondary);" id="exam-topic-display">
+                  Cấu trúc chuẩn Bộ GD&ĐT: Đọc hiểu 4 câu (4đ) + Đoạn văn NLXH 200 chữ (2đ) + Bài văn NLVH 600 chữ (4đ).
+                </p>
+              </div>
+            </div>
+
+            <!-- Top Action Buttons: Lịch sử thi & Đặt lại -->
+            <div class="flex items-center gap-2 flex-wrap">
+              <button class="btn btn-secondary" onclick="app.navigateTo('history')" id="btn-open-history">
+                <i data-lucide="history"></i> Lịch sử bài thi (<span id="exam-history-count-badge">0</span>)
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- MÀN HÌNH 1: SẢNH CHỜ PHÒNG THI (HIỂN THỊ KHI CHƯA BẮT ĐẦU - TUYỆT ĐỐI KHÔNG LỘ ĐỀ BÀI) -->
+        <div id="exam-lobby-screen" class="animate-fade-in">
+          <div class="exam-lobby-card">
+            <div class="text-center mb-4">
+              <div style="font-size: 42px; margin-bottom: 8px;">🏛️</div>
+              <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin-bottom: 6px;">SẢNH CHỜ PHÒNG THI TRỰC TUYẾN</h2>
+              <p style="font-size: 14px; color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                Chào mừng thí sinh đến với Phòng thi chuẩn hóa Ngữ văn 2026. Hãy chọn đề thi, thiết lập thời gian làm bài và bấm nút bắt đầu khi bạn đã sẵn sàng.
+              </p>
+            </div>
+
+            <div class="exam-lobby-grid">
+              <!-- Cột 1: Cấu hình thi (Chọn đề & Chọn thời gian) -->
+              <div class="card p-4" style="background: var(--bg-tertiary); border: 1px solid var(--border);">
+                <!-- Bước 1: Chọn đề thi từ kho đề -->
+                <div class="mb-4">
+                  <label for="exam-practice-selector" style="font-size: 13px; font-weight: 700; color: var(--text-primary); display: block; margin-bottom: 8px;">
+                    <i data-lucide="book-open" style="width: 15px; height: 15px; display: inline-block; vertical-align: middle; color: var(--accent);"></i>
+                    1. Chọn đề thi trong kho đề (10 đề thi chuẩn):
+                  </label>
+                  <select id="exam-practice-selector" class="form-select" onchange="app.handlePracticeExamChange(this.value)">
+                    <option value="1">Đề thi thử Tốt nghiệp THPT Quốc gia 2026 – Đề số 1</option>
+                    <option value="2">Đề thi thử Tốt nghiệp THPT Quốc gia 2026 – Đề số 2</option>
+                    <option value="3">Đề thi thử Tốt nghiệp THPT Quốc gia 2026 – Đề số 3</option>
+                    <option value="4">Đề thi thử Tốt nghiệp THPT Quốc gia 2026 – Đề số 4</option>
+                    <option value="5">Đề thi thử Tốt nghiệp THPT Quốc gia 2026 – Đề số 5</option>
+                    <option value="6">Đề thi thử Tốt nghiệp THPT Quốc gia 2026 – Đề số 6</option>
+                    <option value="7">Đề thi thử Tốt nghiệp THPT Quốc gia 2026 – Đề số 7</option>
+                    <option value="8">Đề thi thử Tốt nghiệp THPT Quốc gia 2026 – Đề số 8</option>
+                    <option value="9">Đề thi thử Tốt nghiệp THPT Quốc gia 2026 – Đề số 9</option>
+                    <option value="10">Đề thi thử Tốt nghiệp THPT Quốc gia 2026 – Đề số 10</option>
+                  </select>
+                  <button type="button" class="btn btn-secondary btn-sm flex items-center justify-center gap-1.5 w-full mt-2" onclick="app.openPdfExportModal(document.getElementById('exam-practice-selector').value)" title="In đề thi hoặc tải tự động đề này về máy dưới dạng PDF">
+                    <i data-lucide="printer" style="width: 14px; height: 14px; color: var(--accent);"></i>
+                    <span>In / Tải PDF tự động đề này</span>
+                  </button>
+                </div>
+
+                <!-- Bước 2: Chọn thời gian làm bài (0 - 120 phút) -->
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <label style="font-size: 13px; font-weight: 700; color: var(--text-primary);">
+                      <i data-lucide="clock" style="width: 15px; height: 15px; display: inline-block; vertical-align: middle; color: var(--accent);"></i>
+                      2. Chọn thời gian làm bài:
+                    </label>
+                    <span class="badge badge-accent" id="exam-selected-time-text" style="font-size: 13px;">120 phút</span>
+                  </div>
+
+                  <!-- Chips thời gian chọn nhanh -->
+                  <div class="flex items-center gap-1.5 flex-wrap mb-3" id="exam-time-presets">
+                    <button type="button" class="chip" data-time="15" onclick="app.setExamDuration(15)">15p</button>
+                    <button type="button" class="chip" data-time="30" onclick="app.setExamDuration(30)">30p</button>
+                    <button type="button" class="chip" data-time="45" onclick="app.setExamDuration(45)">45p</button>
+                    <button type="button" class="chip" data-time="60" onclick="app.setExamDuration(60)">60p</button>
+                    <button type="button" class="chip" data-time="90" onclick="app.setExamDuration(90)">90p</button>
+                    <button type="button" class="chip active" data-time="120" onclick="app.setExamDuration(120)">120p (Chuẩn)</button>
+                  </div>
+
+                  <!-- Nhập số phút tùy chọn -->
+                  <div class="flex items-center gap-2 p-2.5 rounded" style="background: var(--bg-card); border: 1px solid var(--border);">
+                    <span style="font-size: 12.5px; color: var(--text-secondary);">Hoặc tự nhập (1 – 120 phút):</span>
+                    <input type="number" id="exam-custom-time-input" min="1" max="120" value="120" style="width: 65px; padding: 4px 8px; font-size: 13px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 4px; color: var(--text-primary); text-align: center; font-weight: 700;" onchange="app.setExamDuration(this.value)">
+                    <span style="font-size: 12.5px; color: var(--text-tertiary);">phút</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cột 2: Quy chế thi & Tóm tắt -->
+              <div class="card p-4 flex flex-col justify-between" style="background: var(--bg-tertiary); border: 1px solid var(--border);">
+                <div>
+                  <h4 style="font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <i data-lucide="shield-check" style="width: 15px; height: 15px; display: inline-block; vertical-align: middle;"></i>
+                    Quy chế phòng thi Bộ GD&ĐT 2026:
+                  </h4>
+                  <div class="exam-lobby-rule-item">
+                    <i data-lucide="lock" style="width: 16px; height: 16px; color: var(--accent); flex-shrink: 0; margin-top: 2px;"></i>
+                    <span><strong>Bảo mật đề thi:</strong> Đề bài và ngữ liệu được niêm phong. Chỉ xuất hiện sau khi bạn bấm Bắt đầu.</span>
+                  </div>
+                  <div class="exam-lobby-rule-item">
+                    <i data-lucide="alert-octagon" style="width: 16px; height: 16px; color: var(--error); flex-shrink: 0; margin-top: 2px;"></i>
+                    <span><strong>Kỷ luật hết giờ:</strong> Khi hết giờ, phòng thi lập tức đóng và tự động nộp bài để đảm bảo tính công bằng.</span>
+                  </div>
+                  <div class="exam-lobby-rule-item">
+                    <i data-lucide="award" style="width: 16px; height: 16px; color: var(--success); flex-shrink: 0; margin-top: 2px;"></i>
+                    <span><strong>Chấm điểm tự động:</strong> Tự động chấm điểm 10.0đ theo 5 tiêu chí chuẩn của Bộ GD&ĐT 2026.</span>
+                  </div>
+                </div>
+
+                <div class="mt-4 pt-3 text-center" style="border-top: 1px solid var(--border);">
+                  <div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 8px;">Thời gian làm bài: <strong id="lobby-time-preview" class="text-accent">120 phút</strong></div>
+                  <button class="btn-start-exam-huge w-full justify-center" id="btn-start-exam-lobby" onclick="app.startExamSession()">
+                    <i data-lucide="play-circle"></i> 🚀 BẮT ĐẦU LÀM BÀI THI
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MÀN HÌNH 2: MÀN HÌNH LÀM BÀI CHÍNH THỨC (CHỈ HIỂN THỊ KHI ĐÃ BẤM BẮT ĐẦU) -->
+        <div id="exam-active-container" class="hidden animate-fade-in">
+          <!-- Active Exam Control Bar (Đồng hồ, Tiến độ, Nộp bài) -->
+          <div class="card mb-4 p-3 flex items-center justify-between flex-wrap gap-3" style="background: var(--bg-card); border: 1px solid var(--border);">
+            <div class="flex items-center gap-3 flex-wrap">
+              <!-- Đồng hồ đếm ngược chạy từ thời gian đã chọn -->
+              <div class="flex items-center gap-2" style="background: var(--bg-tertiary); padding: 8px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                <i data-lucide="clock" style="width: 20px; height: 20px; color: var(--accent);"></i>
+                <div class="timer-display" id="exam-timer" style="font-size: 1.4rem; font-weight: 800;">120:00</div>
+                <button class="icon-btn" id="exam-timer-btn" onclick="app.toggleExamTimer()" title="Tạm dừng / Tiếp tục đồng hồ" style="width: 28px; height: 28px;">
+                  <i data-lucide="pause" id="exam-timer-icon" style="width: 14px; height: 14px;"></i>
+                </button>
+              </div>
+
+              <span class="badge badge-success" id="exam-session-status">Đang làm bài</span>
+              <span style="font-size: 13.5px; font-weight: 600; color: var(--text-secondary);" id="exam-answered-counter">Đã làm: 0/6 câu</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button class="btn btn-secondary" onclick="app.abortExamSession()" id="btn-abort-exam" title="Hủy phiên thi hiện tại và quay về sảnh chờ">
+                <i data-lucide="log-out"></i> Thoát phòng thi
+              </button>
+              <button class="btn btn-primary" onclick="app.confirmSubmitExam()" id="btn-submit-exam" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: 700;">
+                <i data-lucide="send"></i> Nộp bài thi & Chấm điểm
+              </button>
+            </div>
+          </div>
+
+          <!-- Locked Banner (Hiện khi hết giờ) -->
+          <div id="exam-locked-alert" class="hidden mb-4 p-3 exam-locked-banner">
+            <i data-lucide="lock" style="width: 22px; height: 22px; color: var(--error); flex-shrink: 0;"></i>
+            <div>
+              <strong>🔒 HẾT GIỜ LÀM BÀI!</strong> Phòng thi đã tự động đóng và khóa tất cả các ô trả lời để đảm bảo tính kỷ luật phòng thi. Hệ thống đang tiến hành chấm điểm tự động và lưu bài thi vào Lịch sử.
+            </div>
+          </div>
+
+          <!-- 2-column layout: Đề bài bên trái & 6 ô trả lời bên phải -->
+          <div class="exam-layout">
+            <!-- Left Column: Passage & Prompts -->
+            <div class="exam-panel" id="exam-panel-passage">
+              <div class="exam-panel-header justify-between">
+                <span style="font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+                  <i data-lucide="file-text" style="width: 16px; height: 16px; color: var(--accent);"></i>
+                  Đề bài & Ngữ liệu gốc
+                </span>
+                <span class="badge badge-accent" id="exam-badge-left">120 phút</span>
+              </div>
+              <div class="exam-panel-body" id="exam-passage-text">
+                <!-- Exam content injected via JS -->
+              </div>
+            </div>
+
+            <!-- Right Column: 6 Question Inputs -->
+            <div class="exam-panel" id="exam-panel-questions">
+              <div class="exam-panel-header justify-between">
+                <span style="font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+                  <i data-lucide="edit-3" style="width: 16px; height: 16px; color: var(--accent);"></i>
+                  Phần bài làm của thí sinh (6 câu)
+                </span>
+                <span style="font-size: 12px; color: var(--text-tertiary);">
+                  Tự động lưu tạm • Chấm chuẩn barem
+                </span>
+              </div>
+              <div class="exam-panel-body" id="exam-questions-list">
+                <!-- 6 Question blocks injected via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MÀN HÌNH 3: BÁO CÁO KẾT QUẢ CHẤM ĐIỂM (ẨN MẶC ĐỊNH) -->
+        <div id="exam-result-container" class="hidden animate-fade-in">
+          <!-- Score Overview Banner -->
+          <div class="card card-glass mb-4" id="exam-score-banner">
+            <!-- Injected via JS -->
+          </div>
+
+          <!-- Questions breakdown with student answer vs MOET standard answer -->
+          <div class="flex flex-col gap-4" id="exam-result-breakdown">
+            <!-- Injected via JS -->
+          </div>
+
+          <div class="flex items-center justify-between mt-4 p-4 card flex-wrap gap-2">
+            <button class="btn btn-secondary" onclick="app.retakeCurrentExam()">
+              <i data-lucide="rotate-ccw"></i> Làm lại đề này
+            </button>
+            <div class="flex items-center gap-2">
+              <button class="btn btn-secondary" onclick="app.returnToExamLobby()">
+                <i data-lucide="layout-grid"></i> Về sảnh chọn đề khác
+              </button>
+              <button class="btn btn-secondary" onclick="app.navigateTo('history')">
+                <i data-lucide="history"></i> Xem lịch sử thi
+              </button>
+              <button class="btn btn-primary" onclick="app.navigateTo('exams-bank')">
+                <i data-lucide="book-open"></i> Quay lại kho đề thi
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 3: MODULE 3 – MÁY PHÂN TÍCH BÀI VIẾT (analyzer) -->
+      <!-- ======================================================== -->
+      <section class="page-view hidden" id="view-analyzer">
+        <!-- Mode Switcher & Guide -->
+        <div class="card card-flat mb-4" style="background: var(--bg-card); border: 1px solid var(--border);">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Máy phân tích bài viết</h2>
+              <p style="font-size: 13px; color: var(--text-secondary);">
+                Hệ thống kiểm tra quy chuẩn hình thức, số lượng từ, từ nối liên kết và cảnh báo lặp từ theo thuật toán văn bản.
+              </p>
+            </div>
+
+            <!-- Mode Buttons -->
+            <div class="tabs">
+              <button class="tab-btn active" id="analyzer-mode-200" onclick="app.setAnalyzerMode('paragraph')">
+                <i data-lucide="align-left" style="width: 14px; height: 14px;"></i> Đoạn văn 200 chữ (NLXH)
+              </button>
+              <button class="tab-btn" id="analyzer-mode-600" onclick="app.setAnalyzerMode('essay')">
+                <i data-lucide="file-text" style="width: 14px; height: 14px;"></i> Bài văn 600 chữ (NLVH)
+              </button>
+            </div>
+          </div>
+
+          <!-- Mode Rules Alert -->
+          <div class="mt-3 p-3" style="background: var(--bg-tertiary); border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 13px;" id="analyzer-rules-text">
+            <!-- Dynamically populated based on mode -->
+          </div>
+        </div>
+
+        <!-- Text Input Area -->
+        <div class="card mb-4">
+          <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+            <label for="analyzer-textarea" class="form-label" style="margin-bottom: 0; font-weight: 700;">
+              Khu vực nhập bài viết cần kiểm tra:
+            </label>
+            <div class="flex items-center gap-2">
+              <button class="btn btn-sm btn-ghost" onclick="app.insertAnalyzerSample()">
+                <i data-lucide="sparkles"></i> Chèn bài mẫu để thử nghiệm
+              </button>
+              <button class="btn btn-sm btn-ghost" onclick="app.clearAnalyzerText()">
+                <i data-lucide="trash-2"></i> Xóa nội dung
+              </button>
+            </div>
+          </div>
+
+          <textarea id="analyzer-textarea" class="form-textarea" rows="9" placeholder="Dán hoặc gõ đoạn văn / bài văn của bạn vào đây để hệ thống tự động kiểm tra theo thời gian thực..." oninput="app.analyzeText()"></textarea>
+
+          <!-- Real-time Counters Bar -->
+          <div class="word-counter mt-3">
+            <div class="counter-item">
+              <span class="value text-accent" id="cnt-words">0</span>
+              <span class="label">Số từ</span>
+            </div>
+            <div class="counter-item">
+              <span class="value" id="cnt-chars">0</span>
+              <span class="label">Ký tự</span>
+            </div>
+            <div class="counter-item">
+              <span class="value" id="cnt-sentences">0</span>
+              <span class="label">Số câu</span>
+            </div>
+            <div class="counter-item">
+              <span class="value" id="cnt-paragraphs">0</span>
+              <span class="label">Số đoạn</span>
+            </div>
+          </div>
+
+          <!-- Length Progress Bar -->
+          <div class="mt-3">
+            <div class="flex items-center justify-between mb-1" style="font-size: 12px;">
+              <span id="analyzer-progress-label">Dung lượng: 0 / 200 từ (0%)</span>
+              <span id="analyzer-status-badge" class="badge badge-warning">Chưa đủ dung lượng</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill warning" id="analyzer-progress-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deep Analysis Results Cards -->
+        <div class="bento-grid mb-4" id="analyzer-results-grid">
+          <!-- 1. Độ dài & Dung lượng -->
+          <div class="card" id="card-analysis-length">
+            <div class="card-icon info">
+              <i data-lucide="bar-chart-2"></i>
+            </div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">1. Độ dài & Dung lượng</h3>
+            <div id="analysis-length-body" style="font-size: 13px; color: var(--text-secondary);">
+              Chưa có dữ liệu bài viết.
+            </div>
+          </div>
+
+          <!-- 2. Hình thức đoạn văn -->
+          <div class="card" id="card-analysis-format">
+            <div class="card-icon accent">
+              <i data-lucide="layout"></i>
+            </div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">2. Quy chuẩn hình thức</h3>
+            <div id="analysis-format-body" style="font-size: 13px; color: var(--text-secondary);">
+              Chưa có dữ liệu bài viết.
+            </div>
+          </div>
+
+          <!-- 3. Từ nối & Liên kết câu -->
+          <div class="card" id="card-analysis-connectors">
+            <div class="card-icon success">
+              <i data-lucide="git-merge"></i>
+            </div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">3. Từ nối & Liên kết câu</h3>
+            <div id="analysis-connectors-body" style="font-size: 13px; color: var(--text-secondary);">
+              Chưa có dữ liệu bài viết.
+            </div>
+          </div>
+
+          <!-- 4. Tần suất & Trùng lặp từ -->
+          <div class="card" id="card-analysis-repetition">
+            <div class="card-icon warning">
+              <i data-lucide="repeat"></i>
+            </div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">4. Tần suất & Lặp từ</h3>
+            <div id="analysis-repetition-body" style="font-size: 13px; color: var(--text-secondary);">
+              Chưa có dữ liệu bài viết.
+            </div>
+          </div>
+        </div>
+
+        <!-- Overall Summary & Advice Card (Span 2) -->
+        <div class="card card-glass mb-4" id="card-analysis-advice">
+          <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <div class="flex items-center gap-2">
+              <div class="card-icon success" style="margin-bottom: 0; width: 32px; height: 32px;">
+                <i data-lucide="award" style="width: 18px; height: 18px;"></i>
+              </div>
+              <h3 style="font-size: 1.1rem; font-weight: 700;">Đánh giá tổng quan & Lời khuyên cải thiện</h3>
+            </div>
+            <button class="btn btn-sm btn-secondary" onclick="app.copyAnalysisReport()">
+              <i data-lucide="copy"></i> Sao chép báo cáo phân tích
+            </button>
+          </div>
+          <div id="analysis-advice-body" style="font-size: 14px; line-height: 1.7; color: var(--text-primary);">
+            Hãy nhập hoặc dán nội dung bài viết vào khung trên để nhận báo cáo phân tích chi tiết.
+          </div>
+        </div>
+
+        <div style="font-size: 12px; color: var(--text-tertiary); text-align: center; padding: 8px;">
+          * Lưu ý: Công cụ phân tích tự động dựa trên các quy chuẩn hình thức văn bản và thuật toán xử lý ngôn ngữ JavaScript, giúp học sinh chủ động rà soát trước khi nộp bài.
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 4: MODULE 4 – MÁY TẠO MỞ BÀI - KẾT BÀI (generator) -->
+      <!-- ======================================================== -->
+      <section class="page-view hidden" id="view-generator">
+        <div class="card card-flat mb-4" style="background: var(--bg-card); border: 1px solid var(--border);">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Máy tạo mở bài & Kết bài</h2>
+              <p style="font-size: 13px; color: var(--text-secondary);">
+                Tạo các đoạn mở bài và kết bài mẫu chất lượng cao (điểm 9+) theo 3 phong cách nghị luận kinh điển.
+              </p>
+            </div>
+            <span class="badge badge-accent">18 Tác phẩm • 3 Phong cách</span>
+          </div>
+        </div>
+
+        <!-- 3-Step Selection Form -->
+        <div class="card mb-4">
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+            <span class="badge badge-accent" style="width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; padding: 0;">1</span>
+            Thiết lập yêu cầu đề bài
+          </h3>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            <!-- Bước 1: Chọn tác phẩm -->
+            <div class="form-group">
+              <label for="generator-work-select" class="form-label">1. Tác phẩm cần nghị luận:</label>
+              <select id="generator-work-select" class="form-select" onchange="app.handleGeneratorWorkChange(this.value)">
+                <!-- Injected via JS -->
+              </select>
+              <span class="form-hint">Chọn 1 trong 18 tác phẩm chương trình mới 2026</span>
+            </div>
+
+            <!-- Bước 2: Chọn phong cách -->
+            <div class="form-group">
+              <label for="generator-style-select" class="form-label">2. Phong cách mở bài:</label>
+              <select id="generator-style-select" class="form-select" onchange="app.handleGeneratorStyleChange(this.value)">
+                <option value="direct">Trực tiếp (Đi thẳng vào tác giả, tác phẩm, vấn đề)</option>
+                <option value="indirect">Gián tiếp (Dẫn dắt từ nhận định, câu thơ, triết lý)</option>
+                <option value="contrast">Tương phản (So sánh đối lập làm nổi bật tác phẩm)</option>
+              </select>
+              <span class="form-hint" id="generator-style-hint">Đi thẳng vào tác giả, hoàn cảnh và luận đề.</span>
+            </div>
+
+            <!-- Bước 3: Định hướng đề bài -->
+            <div class="form-group">
+              <label for="generator-focus-select" class="form-label">3. Định hướng nghị luận:</label>
+              <select id="generator-focus-select" class="form-select">
+                <option value="general">Cảm nhận chung về tác phẩm / đoạn trích</option>
+                <option value="character">Phân tích hình tượng nhân vật trung tâm</option>
+                <option value="art">Phân tích vẻ đẹp nghệ thuật / bút pháp tác giả</option>
+                <option value="commentary">Nghị luận về một nhận định / ý kiến văn học</option>
+              </select>
+              <span class="form-hint">Lựa chọn phù hợp với dạng đề bài thi thực tế</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mt-3 pt-3" style="border-top: 1px solid var(--border);">
+            <span style="font-size: 13px; color: var(--text-tertiary);">
+              Mỗi lần tạo hệ thống cung cấp 2 mở bài và 2 kết bài hoàn chỉnh.
+            </span>
+            <button class="btn btn-primary" id="btn-generate-intros" onclick="app.generateIntrosAndConclusions()">
+              <i data-lucide="sparkles"></i> Tạo mở bài & Kết bài
+            </button>
+          </div>
+        </div>
+
+        <!-- Generated Results Section -->
+        <div id="generator-results-container" class="animate-fade-in">
+          <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <h3 style="font-size: 1.15rem; font-weight: 700;" id="generator-results-title">
+              Kết quả tạo mẫu: Tây Tiến (Quang Dũng)
+            </h3>
+            <div class="flex gap-2">
+              <button class="btn btn-sm btn-secondary" onclick="app.regenerateVersion()">
+                <i data-lucide="refresh-cw"></i> Tạo phiên bản khác
+              </button>
+              <button class="btn btn-sm btn-ghost" onclick="app.copyAllGenerated()">
+                <i data-lucide="copy"></i> Sao chép toàn bộ
+              </button>
+            </div>
+          </div>
+
+          <!-- Bento grid for 4 samples -->
+          <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <!-- Mở bài 1 -->
+            <div class="card card-glass">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="badge badge-accent">Mở bài mẫu 1</span>
+                  <span class="badge badge-info" id="badge-style-intro1">Trực tiếp</span>
+                </div>
+                <button class="copy-btn" onclick="app.copyTextById('content-intro-1', 'Đã sao chép Mở bài 1!')">
+                  <i data-lucide="copy"></i>
+                </button>
+              </div>
+              <div class="literary-text" id="content-intro-1" style="font-size: 14px; line-height: 1.75;">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+
+            <!-- Mở bài 2 -->
+            <div class="card card-glass">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="badge badge-accent">Mở bài mẫu 2</span>
+                  <span class="badge badge-info" id="badge-style-intro2">Trực tiếp</span>
+                </div>
+                <button class="copy-btn" onclick="app.copyTextById('content-intro-2', 'Đã sao chép Mở bài 2!')">
+                  <i data-lucide="copy"></i>
+                </button>
+              </div>
+              <div class="literary-text" id="content-intro-2" style="font-size: 14px; line-height: 1.75;">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+
+            <!-- Kết bài 1 -->
+            <div class="card card-glass">
+              <div class="flex items-center justify-between mb-2">
+                <span class="badge badge-success">Kết bài mẫu 1</span>
+                <button class="copy-btn" onclick="app.copyTextById('content-conclusion-1', 'Đã sao chép Kết bài 1!')">
+                  <i data-lucide="copy"></i>
+                </button>
+              </div>
+              <div class="literary-text" id="content-conclusion-1" style="font-size: 14px; line-height: 1.75;">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+
+            <!-- Kết bài 2 -->
+            <div class="card card-glass">
+              <div class="flex items-center justify-between mb-2">
+                <span class="badge badge-success">Kết bài mẫu 2</span>
+                <button class="copy-btn" onclick="app.copyTextById('content-conclusion-2', 'Đã sao chép Kết bài 2!')">
+                  <i data-lucide="copy"></i>
+                </button>
+              </div>
+              <div class="literary-text" id="content-conclusion-2" style="font-size: 14px; line-height: 1.75;">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 5: MODULE 5 – KHO ĐỀ THI THỬ & TÀI LIỆU 9+ (exams-bank) -->
+      <!-- ======================================================== -->
+      <section class="page-view hidden" id="view-exams-bank">
+        <div class="card card-flat mb-4" style="background: var(--bg-card); border: 1px solid var(--border);">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                <span class="badge badge-accent">Chương trình mới 2026</span>
+                <span class="badge badge-success">10 Đề thi chuẩn 120 phút</span>
+                <span class="badge badge-info">4 Cẩm nang chiến thuật 9+</span>
+              </div>
+              <h2 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 4px;">Kho đề thi thử tốt nghiệp THPT & Cẩm nang 9+</h2>
+              <p style="font-size: 13.5px; color: var(--text-secondary); max-width: 850px; line-height: 1.6;">
+                Hệ sinh thái đề thi chuẩn barem Bộ GD&ĐT: Ma trận đặc tả phân hóa, Đề bài chi tiết 3 phần (Đọc hiểu 4đ, Đoạn văn NLXH 2đ, Bài văn NLVH 4đ), Hướng dẫn chấm thang điểm và 10 bài văn mẫu đạt điểm 9+. Đi kèm bộ 4 Cẩm nang phòng thi độc quyền.
+              </p>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <button class="btn btn-secondary" onclick="app.openPdfExportModal()">
+                <i data-lucide="printer"></i> In đề thi / Tải PDF
+              </button>
+            </div>
+          </div>
+
+          <!-- Tab Navigation: Tuyển tập đề thi vs Cẩm nang tài liệu -->
+          <div class="flex items-center gap-2 mt-4 pt-3 flex-wrap" id="exams-tabs-bar" style="border-top: 1px solid var(--border);">
+            <button class="chip active flex items-center gap-2" id="tab-btn-exams" onclick="app.switchExamsTab('exams')" style="padding: 7px 15px; font-weight: 600; font-size: 13.5px;">
+              <i data-lucide="file-text" style="width: 15px; height: 15px;"></i>
+              <span>Tuyển tập Đề thi thử (120 phút)</span>
+              <span class="badge badge-accent" id="badge-tab-exams">10 đề</span>
+            </button>
+            <button class="chip flex items-center gap-2" id="tab-btn-docs" onclick="app.switchExamsTab('docs')" style="padding: 7px 15px; font-weight: 600; font-size: 13.5px;">
+              <i data-lucide="book-open" style="width: 15px; height: 15px;"></i>
+              <span>Cẩm nang & Tài liệu phòng thi 9+</span>
+              <span class="badge badge-info" id="badge-tab-docs">4 cẩm nang</span>
+            </button>
+          </div>
+
+          <!-- Controls for Exams Tab -->
+          <div id="exams-controls-wrapper" class="mt-3">
+            <!-- Search bar -->
+            <div style="position: relative; margin-bottom: 12px;">
+              <input type="text" id="exams-search-input" class="input-academic" style="width: 100%; padding: 10px 14px 10px 38px; border-radius: var(--radius-sm); font-size: 13.5px; background: var(--bg-input); border: 1px solid var(--border); color: var(--text-primary);" placeholder="Tìm kiếm nhanh đề thi theo tên tác phẩm, chủ đề (ví dụ: Tây Tiến, Sông Đà, Pi, Vội vàng, Hồn Trương Ba, Mùa lá rụng...)" oninput="app.searchExamsBank(this.value)">
+              <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-tertiary);"></i>
+            </div>
+
+            <!-- Filter chips & Toggle drawers -->
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center flex-wrap gap-2" id="exams-genre-chips">
+                <span style="font-size: 12px; font-weight: 600; color: var(--text-tertiary);">Thể loại ngữ liệu:</span>
+                <button class="chip active" data-genre-filter="all" onclick="app.filterExamsBank('all')">Tất cả (10 đề)</button>
+                <button class="chip" data-genre-filter="Thơ hiện đại" onclick="app.filterExamsBank('Thơ hiện đại')">Thơ hiện đại (3 đề)</button>
+                <button class="chip" data-genre-filter="Văn xuôi" onclick="app.filterExamsBank('Văn xuôi')">Văn xuôi (5 đề)</button>
+                <button class="chip" data-genre-filter="Kịch" onclick="app.filterExamsBank('Kịch')">Kịch nói (1 đề)</button>
+                <button class="chip" data-genre-filter="Tùy bút" onclick="app.filterExamsBank('Tùy bút')">Tùy bút (1 đề)</button>
+              </div>
+              <div class="flex items-center gap-2">
+                <button class="btn btn-sm btn-ghost" onclick="app.toggleAllExamsDrawers(true)">
+                  <i data-lucide="maximize-2"></i> Mở tất cả đáp án
+                </button>
+                <button class="btn btn-sm btn-ghost" onclick="app.toggleAllExamsDrawers(false)">
+                  <i data-lucide="minimize-2"></i> Thu gọn
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 1: Exams Bank List -->
+        <div class="flex flex-col gap-4" id="exams-bank-list">
+          <!-- 10 Practice Exams injected via JS -->
+        </div>
+
+        <!-- Section 2: Exam Documents List -->
+        <div class="flex flex-col gap-4 hidden" id="exams-docs-list">
+          <!-- 4 Exam Documents injected via JS -->
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 6: LỊCH SỬ LÀM BÀI THI THỬ & ĐÁNH GIÁ NĂNG LỰC (history) -->
+      <!-- ======================================================== -->
+      <section class="page-view hidden" id="view-history">
+        <!-- History Header Card -->
+        <div class="card card-flat mb-6" style="background: var(--bg-card); border: 1px solid var(--border);">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="card-icon info" style="margin-bottom: 0; background: var(--accent-bg); color: var(--accent);">
+                <i data-lucide="history" style="width: 24px; height: 24px;"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1 flex-wrap">
+                  <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-primary);">Lịch Sử Làm Bài Thi Thử THPT 2026</h2>
+                  <span class="badge badge-accent" id="history-total-badge">0 bài nộp</span>
+                </div>
+                <p style="font-size: 13.5px; color: var(--text-secondary); max-width: 680px;">
+                  Hệ thống số hóa tự động lưu trữ toàn bộ các lần làm bài thi, phổ điểm chi tiết (Đọc hiểu, NLXH 200 chữ, NLVH 600 chữ) và nhận xét tự động theo thang điểm chuẩn Bộ GD&ĐT 2026.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap">
+              <button class="btn btn-primary" onclick="app.navigateTo('exam')">
+                <i data-lucide="play-circle"></i>
+                <span>Vào phòng thi thử mới</span>
+              </button>
+              <button class="btn btn-secondary" onclick="app.clearExamHistory()" title="Xóa toàn bộ lịch sử thi">
+                <i data-lucide="trash-2"></i>
+                <span>Xóa lịch sử</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Overview Statistics Cards (Bento Metric Grid) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <!-- Stat 1: Total Exams Taken -->
+          <div class="card p-4 flex items-center gap-3.5" style="background: var(--bg-card); border: 1px solid var(--border);">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(22, 54, 74, 0.1); color: var(--accent-teal);">
+              <i data-lucide="file-check" style="width: 22px; height: 22px;"></i>
+            </div>
+            <div>
+              <span class="text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider block">Bài thi đã làm</span>
+              <span class="text-2xl font-extrabold text-[var(--text-primary)]" id="history-stat-count">0</span>
+              <span class="text-xs text-[var(--text-secondary)] block mt-0.5">Tổng số lượt thực chiến</span>
+            </div>
+          </div>
+
+          <!-- Stat 2: Average Score -->
+          <div class="card p-4 flex items-center gap-3.5" style="background: var(--bg-card); border: 1px solid var(--border);">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(182, 83, 53, 0.1); color: var(--accent);">
+              <i data-lucide="award" style="width: 22px; height: 22px;"></i>
+            </div>
+            <div>
+              <span class="text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider block">Điểm trung bình</span>
+              <span class="text-2xl font-extrabold text-[var(--accent)]" id="history-stat-avg">--</span>
+              <span class="text-xs text-[var(--text-secondary)] block mt-0.5">Thang điểm 10.0</span>
+            </div>
+          </div>
+
+          <!-- Stat 3: Highest Score -->
+          <div class="card p-4 flex items-center gap-3.5" style="background: var(--bg-card); border: 1px solid var(--border);">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(199, 164, 106, 0.15); color: #B6862A;">
+              <i data-lucide="trophy" style="width: 22px; height: 22px;"></i>
+            </div>
+            <div>
+              <span class="text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider block">Điểm cao nhất</span>
+              <span class="text-2xl font-extrabold text-[var(--text-primary)]" id="history-stat-max">--</span>
+              <span class="text-xs text-[var(--text-secondary)] block mt-0.5" id="history-stat-rank">Kỷ lục bài thi</span>
+            </div>
+          </div>
+
+          <!-- Stat 4: Cumulative Time Spent -->
+          <div class="card p-4 flex items-center gap-3.5" style="background: var(--bg-card); border: 1px solid var(--border);">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(46, 111, 86, 0.1); color: var(--success);">
+              <i data-lucide="clock" style="width: 22px; height: 22px;"></i>
+            </div>
+            <div>
+              <span class="text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider block">Thời gian rèn luyện</span>
+              <span class="text-2xl font-extrabold text-[var(--text-primary)]" id="history-stat-time">0 phút</span>
+              <span class="text-xs text-[var(--text-secondary)] block mt-0.5">Thời gian thực tế làm bài</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar for History -->
+        <div class="card p-4 mb-5" style="background: var(--bg-card); border: 1px solid var(--border);">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <div class="flex items-center flex-wrap gap-2" id="history-filter-chips">
+              <span style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-right: 4px;">
+                <i data-lucide="filter" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; color: var(--accent);"></i>
+                Lọc theo xếp loại:
+              </span>
+              <button class="chip-home-filter active" data-history-filter="all" onclick="app.setHistoryFilter('all')">
+                <span>Tất cả</span>
+                <span class="chip-count" id="history-chip-all">0</span>
+              </button>
+              <button class="chip-home-filter" data-history-filter="excellent" onclick="app.setHistoryFilter('excellent')">
+                <span>Xuất sắc & Giỏi (≥ 8.0)</span>
+                <span class="chip-count" id="history-chip-good">0</span>
+              </button>
+              <button class="chip-home-filter" data-history-filter="fair" onclick="app.setHistoryFilter('fair')">
+                <span>Khá (6.5 – 7.9)</span>
+                <span class="chip-count" id="history-chip-fair">0</span>
+              </button>
+              <button class="chip-home-filter" data-history-filter="need-improvement" onclick="app.setHistoryFilter('need-improvement')">
+                <span>Cần cố gắng (&lt; 6.5)</span>
+                <span class="chip-count" id="history-chip-improve">0</span>
+              </button>
+            </div>
+
+            <!-- Search input within history -->
+            <div style="position: relative; min-width: 260px;">
+              <input type="text" id="history-search-input" class="home-search-input" style="height: 40px; padding: 0 14px 0 36px; font-size: 13px;" placeholder="Tìm theo tên đề thi, ngày nộp..." oninput="app.searchExamHistory(this.value)">
+              <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--text-tertiary); pointer-events: none;"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- History Records Container -->
+        <div id="history-cards-container" class="flex flex-col gap-4">
+          <!-- Injected dynamically via JS -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 4. FOOTER — ĐẦY ĐỦ THÔNG TIN (Học thuật & Nhà phát triển) -->
+  <!-- ============================================================ -->
+  <footer class="site-footer" id="main-footer">
+    <div class="footer-container">
+      <!-- Cột 1: Thương hiệu -->
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded bg-gradient-to-br from-[#16364A] to-[#B65335] flex items-center justify-center text-[#F7F1E6] font-bold text-sm">
+            V12
+          </div>
+          <div>
+            <h4 class="font-extrabold text-base text-[var(--text-primary)] leading-tight">VĂN 12 PRO LAB</h4>
+            <span class="text-xs text-[#B65335] font-semibold tracking-wider">HỆ SINH THÁI SỐ NGỮ VĂN 12</span>
+          </div>
+        </div>
+        <p class="text-sm text-slate-400 leading-relaxed mb-4">
+          Nền tảng học tập EdTech chuyên sâu dành cho học sinh lớp 12. Tối ưu hóa toàn diện kiến thức 18 tác phẩm SGK mới 2026, phòng thi thử tương tác 0–120 phút và bộ công cụ viết văn chuẩn Bộ GD&ĐT.
+        </p>
+        <div class="text-xs text-slate-500">
+          Trường THPT Yên Lãng · Mê Linh · Hà Nội
+        </div>
+      </div>
+
+      <!-- Cột 2: Điều hướng nhanh -->
+      <div>
+        <h4 class="footer-col-title">Điều hướng</h4>
+        <ul class="footer-links">
+          <li><a href="javascript:void(0)" onclick="app.navigateTo('dashboard')"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Trang chủ</a></li>
+          <li><a href="javascript:void(0)" onclick="app.navigateTo('works')"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Kho tác phẩm</a></li>
+          <li><a href="javascript:void(0)" onclick="app.navigateTo('exam')"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Phòng thi thử</a></li>
+          <li><a href="javascript:void(0)" onclick="app.navigateTo('analyzer')"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Phân tích bài viết</a></li>
+          <li><a href="javascript:void(0)" onclick="app.navigateTo('generator')"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Máy tạo mở bài</a></li>
+          <li><a href="javascript:void(0)" onclick="app.navigateTo('exams-bank')"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Kho đề thi</a></li>
+          <li><a href="javascript:void(0)" onclick="app.navigateTo('history')"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i> Lịch sử làm bài</a></li>
+        </ul>
+      </div>
+
+      <!-- Cột 3: Cột học thuật -->
+      <div>
+        <h4 class="footer-col-title">Thông tin học thuật</h4>
+        <div class="text-sm space-y-2 text-slate-300">
+          <p class="font-semibold text-white">Giáo viên: Võ Thị Mỹ Ngà</p>
+          <p class="text-slate-400 text-xs">Tổ Ngữ Văn — THPT Yên Lãng</p>
+          <div class="pt-2 border-t border-slate-800 text-xs text-slate-400 space-y-1">
+            <p>Trường THPT Yên Lãng</p>
+            <p>Khóa học: <span class="text-slate-200">2024 – 2027</span></p>
+            <p>Năm học: <span class="text-slate-200">2026 – 2027</span></p>
+            <p>Bộ môn: <span class="text-indigo-400 font-medium">Ngữ Văn 12</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột 4: Cột phát triển & liên hệ -->
+      <div>
+        <h4 class="footer-col-title">Thiết kế & Phát triển</h4>
+        <div class="text-sm space-y-2">
+          <div class="flex items-center gap-2 cursor-pointer" onclick="app.openProjectInfoModal()" title="Nhấn xem chi tiết dự án">
+            <div class="dev-avatar" style="width: 24px; height: 24px; font-size: 11px;">T</div>
+            <span class="font-bold text-white hover:text-sky-400 transition-colors">Đỗ Anh Tú — 12A2</span>
+          </div>
+
+          <div class="footer-contact-actions mt-3">
+            <!-- Nút Zalo duy nhất -->
+            <a href="https://zalo.me/0966181069" target="_blank" rel="noopener noreferrer" class="btn-footer-action btn-footer-zalo" title="Liên hệ Zalo Đỗ Anh Tú: 0966181069">
+              <i data-lucide="message-circle" style="width: 15px; height: 15px;"></i>
+              <span>Liên hệ qua Zalo (0966181069)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dòng cuối bản quyền -->
+    <div class="footer-bottom-bar">
+      <p>© 2026 VĂN 12 PRO LAB · Trường THPT Yên Lãng. Phát triển bởi Đỗ Anh Tú – Lớp 12A2.</p>
+      <p class="text-xs text-slate-500 mt-1">Dự án số hóa học liệu Ngữ văn 12 · Năm học 2026 – 2027</p>
+    </div>
+  </footer>
+
+  <!-- ============================================================ -->
+  <!-- 5. MOBILE BOTTOM NAVIGATION (Thanh điều hướng di động) -->
+  <!-- ============================================================ -->
+  <nav class="mobile-nav" aria-label="Thanh điều hướng di động">
+    <div class="mobile-nav-items">
+      <button class="mobile-nav-item active" data-mobile-view="dashboard" onclick="app.navigateTo('dashboard')">
+        <i data-lucide="layout-dashboard" style="width: 20px; height: 20px;"></i>
+        <span>Trang chủ</span>
+      </button>
+      <button class="mobile-nav-item" data-mobile-view="works" onclick="app.navigateTo('works')">
+        <i data-lucide="book-open" style="width: 20px; height: 20px;"></i>
+        <span>Tác phẩm</span>
+      </button>
+      <button class="mobile-nav-item" data-mobile-view="exam" onclick="app.navigateTo('exam')">
+        <i data-lucide="timer" style="width: 20px; height: 20px;"></i>
+        <span>Phòng thi</span>
+      </button>
+      <button class="mobile-nav-item" data-mobile-view="analyzer" onclick="app.navigateTo('analyzer')">
+        <i data-lucide="scan-text" style="width: 20px; height: 20px;"></i>
+        <span>Phân tích</span>
+      </button>
+      <button class="mobile-nav-item" data-mobile-view="generator" onclick="app.navigateTo('generator')">
+        <i data-lucide="sparkles" style="width: 20px; height: 20px;"></i>
+        <span>Mở bài</span>
+      </button>
+      <button class="mobile-nav-item" data-mobile-view="history" onclick="app.navigateTo('history')">
+        <i data-lucide="history" style="width: 20px; height: 20px;"></i>
+        <span>Lịch sử</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- 6. GLOBAL MODAL OVERLAY -->
+  <!-- ============================================================ -->
+  <div class="modal-overlay" id="app-modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" onclick="if(event.target===this) app.closeModal()">
+    <div class="modal-content" id="app-modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Thông báo</h3>
+        <button class="icon-btn" onclick="app.closeModal()" aria-label="Đóng cửa sổ">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamic modal content -->
+      </div>
+      <div class="modal-footer" id="modal-footer">
+        <button class="btn btn-secondary" onclick="app.closeModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 7. PROJECT INFO MODAL (Thông Tin Dự Án Số Hóa THPT Yên Lãng - Hình 2) -->
+  <!-- ============================================================ -->
+  <div class="project-modal-overlay hidden" id="project-info-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+    <div class="project-modal-backdrop" onclick="app.closeProjectInfoModal()"></div>
+    <div class="project-modal-card animate-scale-up">
+      <!-- Glow ambient background -->
+      <div class="project-modal-glow" aria-hidden="true"></div>
+
+      <!-- Close button -->
+      <button type="button" class="project-modal-close-btn" onclick="app.closeProjectInfoModal()" aria-label="Đóng cửa sổ thông tin dự án">
+        <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+      </button>
+
+      <!-- Modal Header -->
+      <div class="project-modal-header">
+        <div class="project-badge-pill">
+          <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
+          <span>SẢN PHẨM HỌC TẬP SỐ · MÔN NGỮ VĂN 12</span>
+        </div>
+        <h2 class="project-modal-title" id="project-modal-title">
+          Trường THPT Yên Lãng
+        </h2>
+        <p class="project-modal-subtitle">
+          Dự Án Số Hóa Học Liệu & Hệ Thống Ôn Thi Ngữ Văn Lớp 12
+        </p>
+      </div>
+
+      <!-- 4 Core Credentials Cards (Bento 2x2) -->
+      <div class="project-credentials-grid">
+        <!-- Card 1: Đơn vị & Khóa học -->
+        <div class="project-cred-card cred-school">
+          <div class="cred-icon-box">
+            <i data-lucide="school" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div class="cred-text-box">
+            <span class="cred-label">ĐƠN VỊ & KHÓA HỌC</span>
+            <h4 class="cred-name">Trường THPT Yên Lãng</h4>
+            <span class="cred-meta">Khóa học: <strong class="text-amber-400">2024 – 2027</strong></span>
+          </div>
+        </div>
+
+        <!-- Card 2: Năm học & Bộ môn -->
+        <div class="project-cred-card cred-year">
+          <div class="cred-icon-box">
+            <i data-lucide="calendar" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div class="cred-text-box">
+            <span class="cred-label">NĂM HỌC & BỘ MÔN</span>
+            <h4 class="cred-name">Năm học: 2026 – 2027</h4>
+            <span class="cred-meta">Môn: <strong class="text-emerald-400">Ngữ Văn Lớp 12</strong> (CT mới)</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Giáo viên -->
+        <div class="project-cred-card cred-teacher">
+          <div class="cred-icon-box">
+            <i data-lucide="award" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div class="cred-text-box">
+            <span class="cred-label">GIÁO VIÊN HƯỚNG DẪN</span>
+            <h4 class="cred-name">Cô Võ Thị Mỹ Ngà</h4>
+            <span class="cred-meta">Tổ Ngữ Văn — THPT Yên Lãng</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Phát triển web -->
+        <div class="project-cred-card cred-dev">
+          <div class="cred-icon-box">
+            <i data-lucide="code-2" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div class="cred-text-box">
+            <span class="cred-label">PHÁT TRIỂN HỆ THỐNG WEB</span>
+            <h4 class="cred-name">Đỗ Anh Tú</h4>
+            <span class="cred-meta">Học sinh lớp: <strong class="text-sky-400">12A2</strong> · Khóa 2024–2027</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mục tiêu & Ý nghĩa -->
+      <div class="project-mission-box">
+        <div class="project-mission-header">
+          <div class="mission-icon">
+            <i data-lucide="graduation-cap" style="width: 20px; height: 20px;"></i>
+          </div>
+          <h3 class="mission-title">Mục tiêu & Ý nghĩa của Sản Phẩm Học Tập Số</h3>
+        </div>
+        <p class="mission-description">
+          Trang web được xây dựng như một <strong>Sản phẩm học tập số môn Ngữ Văn</strong> phục vụ học sinh lớp 12 nói chung và các bạn học sinh <strong>THPT Yên Lãng</strong> nói riêng. Ứng dụng công nghệ thông tin vào giảng dạy và học tập, hỗ trợ quá trình chuẩn bị cho kỳ thi tốt nghiệp THPT Quốc Gia môn Ngữ Văn đạt kết quả cao nhất.
+        </p>
+
+        <!-- 6 Feature Points -->
+        <div class="project-features-grid">
+          <div class="project-feature-item">
+            <i data-lucide="check-circle-2" class="feature-check-icon"></i>
+            <span><strong>Số hóa trọn bộ 18 tác phẩm Văn học 12 (Bài 1 – Bài 9):</strong> Bám sát chương trình mới nhất 2026 của Bộ GD&ĐT.</span>
+          </div>
+          <div class="project-feature-item">
+            <i data-lucide="check-circle-2" class="feature-check-icon"></i>
+            <span><strong>Chân dung chuẩn 15 tác giả thực tế:</strong> Tích hợp tiểu sử và phong cách nghệ thuật chi tiết.</span>
+          </div>
+          <div class="project-feature-item">
+            <i data-lucide="check-circle-2" class="feature-check-icon"></i>
+            <span><strong>Dàn ý nghị luận văn học & xã hội:</strong> Chuẩn thang điểm 9+ với hệ thống luận điểm sắc bén.</span>
+          </div>
+          <div class="project-feature-item">
+            <i data-lucide="check-circle-2" class="feature-check-icon"></i>
+            <span><strong>Ngân hàng đề thi thử chuẩn form Bộ GD&ĐT:</strong> 10 đề thi thử 120 phút hoàn chỉnh kèm ma trận, 10 bài văn mẫu 9+ và 4 cẩm nang tài liệu phòng thi.</span>
+          </div>
+          <div class="project-feature-item">
+            <i data-lucide="check-circle-2" class="feature-check-icon"></i>
+            <span><strong>Phòng thi thử tương tác 0 – 120 phút:</strong> Tự chọn đề từ kho đề, ô làm bài riêng từng câu, tự động khóa khi hết giờ, lưu lịch sử và tự động chấm điểm chuẩn Bộ GD&ĐT 2026.</span>
+          </div>
+          <div class="project-feature-item">
+            <i data-lucide="check-circle-2" class="feature-check-icon"></i>
+            <span><strong>Máy phân tích bài viết & Máy tạo mở bài:</strong> Đọc giọng Web Speech và kiểm tra quy chuẩn 200/600 từ.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Ribbon (Chỉ có ô Zalo) -->
+      <div class="project-contact-ribbon">
+        <div class="contact-ribbon-text">
+          <h4 class="contact-ribbon-title">Cần hỗ trợ học tập hoặc góp ý nội dung?</h4>
+          <p class="contact-ribbon-sub">Liên hệ người phát triển web: <strong>Đỗ Anh Tú (THPT Yên Lãng)</strong></p>
+        </div>
+        <div class="contact-ribbon-actions">
+          <!-- Chỉ có ô Zalo -->
+          <a href="https://zalo.me/0966181069" target="_blank" rel="noopener noreferrer" class="btn-contact-action btn-contact-zalo" title="Liên hệ Zalo Đỗ Anh Tú: 0966181069">
+            <i data-lucide="message-circle" style="width: 17px; height: 17px;"></i>
+            <span>Liên hệ qua Zalo (0966181069)</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Modal Bottom Bar -->
+      <div class="project-modal-bottom-bar">
+        <span class="text-xs text-slate-400">Trường THPT Yên Lãng · Năm học 2026 – 2027</span>
+        <button type="button" class="btn-project-modal-close" onclick="app.closeProjectInfoModal()">
+          Đóng cửa sổ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: LỊCH SỬ BÀI THI THỬ ĐÃ LÀM -->
+  <!-- ============================================================ -->
+  <div class="modal-overlay hidden" id="modal-exam-history" onclick="if(event.target===this) app.closeExamHistoryModal()">
+    <div class="modal-content" style="max-width: 860px; width: 95%;">
+      <div class="modal-header">
+        <div class="flex items-center gap-2">
+          <i data-lucide="history" style="color: var(--accent); width: 22px; height: 22px;"></i>
+          <h3 style="font-size: 1.25rem; font-weight: 700;">Lịch sử bài thi thử Tốt nghiệp THPT đã làm</h3>
+        </div>
+        <button class="modal-close-btn" onclick="app.closeExamHistoryModal()">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="exam-history-modal-body" style="max-height: 65vh; overflow-y: auto; padding: 18px 24px;">
+        <!-- Injected dynamically via JS -->
+      </div>
+      <div class="modal-footer justify-between flex-wrap gap-2">
+        <button class="btn btn-sm btn-danger" onclick="app.clearExamHistory()">
+          <i data-lucide="trash-2"></i> Xóa toàn bộ lịch sử thi
+        </button>
+        <button class="btn btn-secondary" onclick="app.closeExamHistoryModal()">Đóng cửa sổ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL: TRUNG TÂM IN & TẢI ĐỀ THI PDF CHUẨN BỘ GD&ĐT 2026 -->
+  <!-- ============================================================ -->
+  <div class="modal-overlay hidden" id="modal-pdf-export" role="dialog" aria-modal="true" aria-labelledby="pdf-modal-title" onclick="if(event.target===this) app.closePdfExportModal()">
+    <div class="modal-content pdf-export-modal" style="max-width: 980px; width: 95%;">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="flex items-center gap-2">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(182, 83, 53, 0.12); display: flex; align-items: center; justify-content: center; color: var(--accent);">
+            <i data-lucide="printer" style="width: 18px; height: 18px;"></i>
+          </div>
+          <div>
+            <h3 id="pdf-modal-title" style="font-size: 1.15rem; font-weight: 700; margin: 0; line-height: 1.2;">In & Tải Đề Thi PDF Chuẩn Bộ GD&ĐT 2026</h3>
+            <span style="font-size: 12px; color: var(--text-secondary);">Hệ thống xuất bản đề thi A4 chính thức tự động tải về máy</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="app.closePdfExportModal()" aria-label="Đóng cửa sổ">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <!-- PDF Controls Toolbar -->
+      <div class="pdf-toolbar-panel">
+        <div class="pdf-toolbar-controls">
+          <div>
+            <label for="pdf-exam-selector" style="font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); display: block; margin-bottom: 4px;">
+              1. Chọn đề thi cần in / tải:
+            </label>
+            <select id="pdf-exam-selector" class="pdf-toolbar-select" onchange="app.handlePdfExamChange(this.value)">
+              <!-- Options populated dynamically by JS -->
+            </select>
+          </div>
+
+          <div>
+            <label for="pdf-format-selector" style="font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); display: block; margin-bottom: 4px;">
+              2. Định dạng nội dung xuất:
+            </label>
+            <select id="pdf-format-selector" class="pdf-toolbar-select" style="min-width: 230px;" onchange="app.handlePdfFormatChange(this.value)">
+              <option value="exam_only" selected>📄 Chỉ Đề bài thi chính thức (Phát học sinh)</option>
+              <option value="exam_and_key">📑 Đề thi + Hướng dẫn chấm & Thang điểm</option>
+              <option value="exam_and_sample">🌟 Đề thi + Bài văn mẫu đạt điểm 9+</option>
+              <option value="full_package">📦 Trọn bộ hồ sơ (Đề + Ma trận + Đáp án + Mẫu 9+)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <button type="button" class="btn btn-primary" onclick="app.autoDownloadExamPdf()" id="btn-auto-download-pdf" title="Tải file PDF trực tiếp về máy">
+            <i data-lucide="download"></i>
+            <span>Tự động tải về (PDF)</span>
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="app.printCurrentExamPdf()" title="Mở hộp thoại In hoặc Lưu dưới dạng PDF của trình duyệt">
+            <i data-lucide="printer"></i>
+            <span>In đề / Lưu PDF</span>
+          </button>
+          <button type="button" class="btn btn-ghost" onclick="app.downloadExamWordDoc()" title="Tải bản tài liệu Word .doc">
+            <i data-lucide="file-text"></i>
+            <span>Tải file Word</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive A4 Preview Area -->
+      <div class="pdf-preview-viewport">
+        <div id="pdf-printable-area">
+          <!-- Live styled A4 Sheet injected dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer justify-between flex-wrap gap-2" style="background: var(--bg-tertiary);">
+        <div class="flex items-center gap-2 text-xs" style="color: var(--text-secondary);">
+          <i data-lucide="check-circle" style="width: 14px; height: 14px; color: #10B981;"></i>
+          <span>Định dạng chuẩn khổ A4, căn lề 20mm, font Times New Roman, cấu trúc đề thi tốt nghiệp THPT 2026.</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="app.closePdfExportModal()">Đóng cửa sổ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 7. GLOBAL TOAST NOTIFICATIONS CONTAINER -->
+  <!-- ============================================================ -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- ============================================================ -->
+  <!-- 8. APPLICATION DATA & LOGIC SCRIPTS -->
+  <!-- ============================================================ -->
+  <script src="js/data.js?v=20261016_pdf_v1"></script>
+  <script src="js/book3d.js?v=20261016_pdf_v1"></script>
+  <script src="js/app.js?v=20261016_pdf_v1"></script>
+</body>
+</html>
