@@ -2808,6 +2808,28 @@ const APP_DATA = {
         "Khép lại bài thơ, âm vang hào sảng \"Sông Mã gầm lên khúc độc hành\" vẫn còn ngân vọng mãi trong tâm khảm bao thế hệ. Tác phẩm của Quang Dũng là ngọn lửa thiêng truyền trao niềm tự hào và lòng biết ơn vô hạn đối với thế hệ cha anh đã \"chẳng tiếc đời xanh\" vì nền độc lập của Tổ quốc."
       ]
     },
+    "dan-ghi-ta-cua-lorca": {
+      "workTitle": "Đàn ghi ta của Lor-ca",
+      "author": "Thanh Thảo",
+      "intros": {
+        "direct": [
+          "Thanh Thảo là một trong những nhà thơ tiên phong xuất sắc nhất của phong trào đổi mới thơ ca Việt Nam đương đại với tư duy thơ hiện đại, giàu suy tưởng triết lý và đậm đặc chất tượng trưng – siêu thực. Bài thơ \"Đàn ghi ta của Lor-ca\" in trong tập \"Khối vuông ru-bích\" (1985) là tác phẩm kiệt xuất, khắc họa bi kịch và sự bất tử của thi sĩ thiên tài Tây Ban Nha Federico García Lorca trên đấu trường tự do.",
+          "Lấy cảm hứng từ cái chết bi tráng của nhà thơ tự do Lorca dưới họng súng phát xít Franco năm 1936, \"Đàn ghi ta của Lor-ca\" của Thanh Thảo là một bài ca ngưỡng mộ và xót thương sâu sắc. Bằng kỹ thuật liên tưởng bất ngờ và nhạc tính biến ảo, bài thơ khẳng định sức sống mãnh liệt của nghệ thuật chân chính trước bạo quyền tàn độc."
+        ],
+        "indirect": [
+          "\"Khi tôi chết hãy chôn tôi với cây đàn ghi-ta\" – di nguyện nghệ thuật tha thiết ấy của Lorca đã trở thành nguồn cảm hứng thiêng liêng để Thanh Thảo viết nên thi phẩm trác tuyệt \"Đàn ghi ta của Lor-ca\". Bài thơ là nén tâm hương thành kính tưởng niệm một linh hồn nghệ sĩ tự do đã ngã xuống vì khát vọng cách tân nghệ thuật và giải phóng con người.",
+          "Bạo lực phát xít có thể tàn sát thể xác con người nhưng bất lực trước sự vĩnh cửu của cái đẹp và tự do. Trong \"Đàn ghi ta của Lor-ca\", Thanh Thảo đã minh chứng chân lý ấy bằng những hình tượng thơ siêu thực đầy ám ảnh, nơi tiếng đàn ròng ròng máu chảy hóa thành muôn ngàn đóa hoa tử đinh hương thơm ngát giữa trời cao."
+        ],
+        "contrast": [
+          "Khác với thi pháp thơ truyền thống vốn coi trọng vần điệu và cấu trúc ngữ pháp chặt chẽ, \"Đàn ghi ta của Lor-ca\" của Thanh Thảo xóa bỏ dấu câu, phá vỡ logic trật tự thông thường để cảm xúc tự do tuôn chảy theo dòng chảy vô thức, mở ra không gian đa nghĩa huyền ảo mang tầm vóc thơ ca thế giới.",
+          "Sự đối lập dữ dội giữa tiếng hát nghêu ngao yêu đời của chàng lãng tử Lorca và tiếng súng tàn bạo trên bãi bắn xao xác đã làm bật lên nghịch cảnh đau đớn giữa nghệ thuật thanh khiết và bạo quyền thực dân phát xít."
+        ]
+      },
+      "conclusions": [
+        "\"Đàn ghi ta của Lor-ca\" là một thành tựu cách tân rực rỡ của thơ ca hiện đại Việt Nam. Bằng ngôn ngữ tượng trưng siêu thực độc đáo và chuỗi âm thanh luyến láy diệu kỳ \"li-la li-la\", Thanh Thảo đã tạc nên tượng đài bất tử về người nghệ sĩ tự do Lorca, khẳng định nghệ thuật chân chính sẽ trường tồn vĩnh cửu cùng nhân loại.",
+        "Khép lại bài thơ, tiếng đàn ghi ta như vẫn ngân vang buông lơi trong cõi vô tận. Tác phẩm truyền cho chúng ta niềm tin sắt đá vào sức mạnh của cái đẹp, lòng dũng cảm dấn thân và khát vọng sáng tạo không ngừng nghỉ vì những giá trị nhân văn cao cả."
+      ]
+    },
     "dan-ghi-ta-cua-lor-ca": {
       "workTitle": "Đàn ghi ta của Lor-ca",
       "author": "Thanh Thảo",

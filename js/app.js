@@ -81,7 +81,14 @@
   // Application State
   const state = {
     currentView: 'dashboard',
-    theme: 'academic', // Mặc định ban đầu luôn là chế độ sáng (Academic Light Mode)
+    theme: (function () {
+      try {
+        return localStorage.getItem('van12_theme') === 'dark' ? 'dark' : 'academic';
+      } catch (e) {
+        return 'academic';
+      }
+    })(),
+    searchResults: [],
     sidebarCollapsed: (function () {
       try {
         return localStorage.getItem('van12_sidebar') === 'true';
@@ -210,6 +217,25 @@
       this.initExamCountdown();
       this.updateExamHistoryCountBadge();
       this.renderIcons();
+
+      // Setup Web Speech API voices listener for Chromium
+      if ('speechSynthesis' in window) {
+        try {
+          window.speechSynthesis.getVoices();
+          window.speechSynthesis.onvoiceschanged = () => {
+            try { window.speechSynthesis.getVoices(); } catch (e) {}
+          };
+        } catch (e) {}
+      }
+
+      // Restore initial view from URL hash if available
+      try {
+        const initialHash = window.location.hash.replace(/^#/, '');
+        const validViews = ['dashboard', 'works', 'exam', 'analyzer', 'generator', 'exams-bank', 'history'];
+        if (initialHash && validViews.includes(initialHash)) {
+          this.navigateTo(initialHash, {}, false);
+        }
+      } catch (e) {}
     },
 
     initBook3D() {
@@ -329,15 +355,30 @@
     // Theme Management
     // ──────────────────────────────────────────
     initTheme() {
-      // Khi vào web, mặc định ban đầu luôn là chế độ sáng (Academic Light Mode)
-      state.theme = 'academic';
-      localStorage.setItem('van12_theme', 'academic');
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('academic-theme');
-      if (document.body) document.body.classList.remove('academic-theme');
+      try {
+        const savedTheme = localStorage.getItem('van12_theme');
+        if (savedTheme === 'dark') {
+          state.theme = 'dark';
+        } else {
+          state.theme = 'academic';
+        }
+      } catch (e) {
+        state.theme = 'academic';
+      }
+
+      if (state.theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('academic-theme');
+        if (document.body) document.body.classList.remove('academic-theme');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('academic-theme');
+        if (document.body) document.body.classList.remove('academic-theme');
+      }
+
       this.updateThemeIcon();
       if (window.Book3D && window.Book3D.setTheme) {
-        window.Book3D.setTheme(false);
+        window.Book3D.setTheme(state.theme === 'dark');
       }
 
       const themeBtn = document.getElementById('theme-toggle');
@@ -447,10 +488,30 @@
           }
         });
       });
+
+      // Synchronize browser history and hash changes
+      window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.replace(/^#/, '');
+        const validViews = ['dashboard', 'works', 'exam', 'analyzer', 'generator', 'exams-bank', 'history'];
+        if (hash && validViews.includes(hash) && hash !== state.currentView) {
+          this.navigateTo(hash, {}, false);
+        }
+      });
     },
 
-    navigateTo(viewName, params = {}) {
+    navigateTo(viewName, params = {}, syncHash = true) {
       state.currentView = viewName;
+
+      // Sync URL hash for browser navigation
+      if (syncHash) {
+        try {
+          if (window.location.hash !== `#${viewName}`) {
+            history.pushState(null, '', `#${viewName}`);
+          }
+        } catch (e) {
+          window.location.hash = viewName;
+        }
+      }
 
       // Stop speech synthesis if speaking when user navigates
       if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
@@ -1376,7 +1437,7 @@
 
       const navPills = comparisons.map(c => `
         <button class="chip ${c.id === current.id ? 'active' : ''}" onclick="app.openComparisonModal('${c.id}')" style="font-size: 12.5px;">
-          ${c.id === 'song-da-vs-song-huong' ? 'Sông Đà vs Sông Hương' : c.id === 'mi-vs-thi' ? 'Nhân vật Mị vs Thị' : 'Lính Tây Tiến vs Đồng chí'}
+          ${c.shortTitle || (c.workA && c.workB ? `${c.workA.replace(/\s*\(.*?\)/, '')} vs ${c.workB.replace(/\s*\(.*?\)/, '')}` : c.title)}
         </button>
       `).join('');
 
@@ -1613,12 +1674,16 @@
       this.navigateTo('generator');
       const select = document.getElementById('generator-work-select');
       if (select) {
-        // match by title or slug
-        for (let i = 0; i < select.options.length; i++) {
-          if (select.options[i].text.includes(work.title)) {
-            select.selectedIndex = i;
-            this.handleGeneratorWorkChange(select.value);
-            break;
+        if (work.slug && Array.from(select.options).some(o => o.value === work.slug)) {
+          select.value = work.slug;
+          this.handleGeneratorWorkChange(work.slug);
+        } else {
+          for (let i = 0; i < select.options.length; i++) {
+            if (select.options[i].text.includes(work.title)) {
+              select.selectedIndex = i;
+              this.handleGeneratorWorkChange(select.value);
+              break;
+            }
           }
         }
       }
@@ -1657,9 +1722,14 @@
       utterance.rate = 0.95;
       utterance.pitch = 1.0;
 
-      const voices = window.speechSynthesis.getVoices();
-      const viVoice = voices.find(
-        (v) => v.lang && (v.lang.toLowerCase().includes('vi') || v.lang.toLowerCase().includes('vn'))
+      let voices = window.speechSynthesis.getVoices();
+      if (!voices || voices.length === 0) {
+        try {
+          voices = window.speechSynthesis.getVoices();
+        } catch (e) {}
+      }
+      const viVoice = (voices || []).find(
+        (v) => v.lang && (v.lang.toLowerCase().includes('vi') || v.lang.toLowerCase().includes('vn') || (v.name && v.name.toLowerCase().includes('vietnam')))
       );
       if (viVoice) utterance.voice = viVoice;
 
@@ -1785,6 +1855,14 @@
     },
 
     returnToExamLobby() {
+      if (this.examBeforeUnloadBound) {
+        window.removeEventListener('beforeunload', this.examBeforeUnloadBound);
+        this.examBeforeUnloadBound = null;
+      }
+      try {
+        sessionStorage.removeItem('van12_exam_draft');
+      } catch (err) {}
+
       clearInterval(state.exam.timerInterval);
       state.exam.isTimerRunning = false;
       state.exam.isStarted = false;
@@ -1872,6 +1950,18 @@
         social: '',
         literature: ''
       };
+
+      // Cảnh báo người dùng khi vô tình đóng tab hoặc rời trang khi đang làm bài thi
+      if (!this.examBeforeUnloadBound) {
+        this.examBeforeUnloadBound = (e) => {
+          if (state.exam.isStarted && !state.exam.isSubmitted) {
+            e.preventDefault();
+            e.returnValue = 'Bài thi đang diễn ra. Bạn có chắc chắn muốn rời khỏi không?';
+            return e.returnValue;
+          }
+        };
+        window.addEventListener('beforeunload', this.examBeforeUnloadBound);
+      }
 
       // Đặt thời gian làm bài chuẩn xác theo thời gian thí sinh vừa chọn
       const duration = state.exam.selectedDurationMinutes || 120;
@@ -2081,6 +2171,14 @@
       }
 
       this.updateExamAnsweredCount();
+
+      // Tự động lưu nháp câu trả lời vào sessionStorage để chống mất dữ liệu khi vô tình reload
+      try {
+        sessionStorage.setItem('van12_exam_draft', JSON.stringify({
+          examId: state.exam.selectedExamId,
+          answers: state.exam.answers
+        }));
+      } catch (err) {}
     },
 
     updateExamAnsweredCount() {
@@ -2217,6 +2315,14 @@
     },
 
     submitAndGradeFullExam(isAutoSubmit) {
+      if (this.examBeforeUnloadBound) {
+        window.removeEventListener('beforeunload', this.examBeforeUnloadBound);
+        this.examBeforeUnloadBound = null;
+      }
+      try {
+        sessionStorage.removeItem('van12_exam_draft');
+      } catch (err) {}
+
       this.pauseExamTimer();
       state.exam.isLocked = true;
       state.exam.isSubmitted = true;
@@ -2628,7 +2734,25 @@
             </div>
           </div>
 
-          <!-- Section 4: Bài văn mẫu tham khảo đạt điểm 9+ -->
+          <!-- Section 4: Hướng dẫn chấm & Thang điểm chi tiết chuẩn Bộ GD&ĐT -->
+          <div class="card p-5" style="border: 1px solid var(--border);">
+            <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="badge badge-accent">ĐÁP ÁN CHÍNH THỨC</span>
+                <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--accent); margin: 0;">
+                  Hướng dẫn chấm & Thang điểm chi tiết (Bộ GD&ĐT)
+                </h3>
+              </div>
+              <button class="btn btn-sm btn-ghost" onclick="app.copyText(state.exam.gradedResult.examAnswerKey, 'Đã sao chép hướng dẫn chấm chi tiết!')">
+                <i data-lucide="copy"></i> Sao chép hướng dẫn chấm
+              </button>
+            </div>
+            <div class="literary-text" style="white-space: pre-wrap; font-size: 14px; line-height: 1.8; background: var(--bg-tertiary); padding: 18px; border-radius: var(--radius-sm); border-left: 3px solid var(--accent); color: var(--text-primary);">
+              ${res.examAnswerKey || 'Đang cập nhật hướng dẫn chấm cho đề thi này.'}
+            </div>
+          </div>
+
+          <!-- Section 5: Bài văn mẫu tham khảo đạt điểm 9+ -->
           <div class="card p-5" style="border: 1px solid var(--border);">
             <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
               <span class="badge badge-success">BÀI VĂN MẪU THAM KHẢO ĐẠT ĐIỂM 9+</span>
@@ -3247,7 +3371,8 @@
           fmtBody.innerHTML = 'Chưa có dữ liệu bài viết.';
         } else if (state.analyzer.mode === 'paragraph') {
           // Check line breaks in 200 words paragraph
-          const hasNewline = text.includes('\n');
+          const trimmedText = text.trim();
+          const hasNewline = trimmedText.includes('\n');
           const startsWithIndent = text.startsWith('  ') || text.startsWith('\t') || text.startsWith('    ');
 
           if (hasNewline) {
@@ -3371,8 +3496,7 @@
 
       select.innerHTML = window.APP_DATA.works
         .map((w) => {
-          // generate clean slug
-          const slug = stripDiacritics(w.title).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          const slug = w.slug;
           return `<option value="${slug}" data-id="${w.id}">${w.title} – ${w.author}</option>`;
         })
         .join('');
@@ -3910,6 +4034,8 @@
         });
       }
 
+      state.searchResults = results;
+
       // Show Results Modal
       if (results.length === 0) {
         this.openModal({
@@ -3927,7 +4053,7 @@
         const resultsHtml = results
           .map(
             (r, idx) => `
-            <div class="card card-flat mb-2" style="border: 1px solid var(--border); padding: 12px 16px; cursor: pointer;" onclick="app.closeModal(); (${r.action.toString()})();">
+            <div class="card card-flat mb-2" style="border: 1px solid var(--border); padding: 12px 16px; cursor: pointer;" onclick="app.handleSearchResultClick(${idx})">
               <div class="flex items-center justify-between mb-1">
                 <span class="badge badge-accent">${r.type}</span>
                 <span style="font-size: 12px; color: var(--text-tertiary);">Bấm để xem</span>
@@ -3944,6 +4070,14 @@
           body: `<div style="max-height: 450px; overflow-y: auto;">${resultsHtml}</div>`,
           footerButtons: '<button class="btn btn-secondary" onclick="app.closeModal()">Đóng</button>'
         });
+      }
+    },
+
+    handleSearchResultClick(index) {
+      this.closeModal();
+      const item = state.searchResults && state.searchResults[index];
+      if (item && typeof item.action === 'function') {
+        item.action();
       }
     },
 
