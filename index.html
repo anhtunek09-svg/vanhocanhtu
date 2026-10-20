@@ -44,7 +44,7 @@
   </script>
 
   <!-- Custom Design System Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css?v=20261017_mobile_bust_v5">
+  <link rel="stylesheet" href="css/styles.css?v=20261020_mindmap_pro_v2">
 
   <!-- Mobile Hero Spacing Override (Bypass browser cache; Desktop stays 100% untouched) -->
   <style id="mobile-header-spacing-fix">
@@ -131,9 +131,9 @@
           <i data-lucide="timer" style="width: 15px; height: 15px;"></i>
           <span>Phòng thi thử</span>
         </button>
-        <button class="nav-link" data-view="analyzer" title="Phân tích bài viết">
-          <i data-lucide="scan-text" style="width: 15px; height: 15px;"></i>
-          <span>Phân tích bài viết</span>
+        <button class="nav-link" data-view="mindmap" title="Bản đồ tư duy">
+          <i data-lucide="waypoints" style="width: 15px; height: 15px;"></i>
+          <span>Bản đồ tư duy</span>
         </button>
         <button class="nav-link" data-view="generator" title="Máy tạo mở bài">
           <i data-lucide="sparkles" style="width: 15px; height: 15px;"></i>
@@ -206,6 +206,10 @@
         <button class="nav-item" data-view="works">
           <i data-lucide="book-open"></i>
           <span class="nav-item-text">Kho tác phẩm</span>
+        </button>
+        <button class="nav-item" data-view="mindmap">
+          <i data-lucide="waypoints"></i>
+          <span class="nav-item-text">Bản đồ tư duy</span>
         </button>
       </div>
 
@@ -950,6 +954,9 @@
               </button>
               <button class="btn btn-ghost" onclick="app.copyCurrentWorkFull()" title="Sao chép toàn bộ kiến thức">
                 <i data-lucide="copy"></i> Sao chép toàn bộ
+              </button>
+              <button class="btn btn-secondary" onclick="app.openMindMapForCurrentWork()" title="Mở sơ đồ tư duy tương tác cho tác phẩm này">
+                <i data-lucide="waypoints"></i> Sơ đồ tư duy
               </button>
               <button class="btn btn-primary" onclick="app.createIntroForCurrentWork()">
                 <i data-lucide="sparkles"></i> Tạo mở bài cho bài này
@@ -1732,6 +1739,189 @@
         </div>
       </section>
 
+      <!-- ======================================================== -->
+      <!-- VIEW 7: MIND MAP TƯƠNG TÁC (mindmap) -->
+      <!-- ======================================================== -->
+      <section class="page-view hidden" id="view-mindmap">
+        <!-- Mind Map Header Card -->
+        <div class="card card-flat mb-5" style="background: var(--bg-card); border: 1px solid var(--border);">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="card-icon info" style="margin-bottom: 0; background: linear-gradient(135deg, rgba(37,99,235,0.12), rgba(124,58,237,0.12)); color: #2563EB;">
+                <i data-lucide="waypoints" style="width: 24px; height: 24px;"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1 flex-wrap">
+                  <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-primary);">Bản Đồ Tư Duy Tương Tác</h2>
+                  <span class="badge" style="background: linear-gradient(135deg, #2563EB, #7C3AED); color: #fff; font-size: 10.5px;">✨ Tính năng mới</span>
+                </div>
+                <p style="font-size: 13.5px; color: var(--text-secondary); max-width: 680px;">
+                  Khám phá toàn bộ kiến thức tác phẩm qua sơ đồ tư duy SVG tương tác. Nhấn vào từng nhánh để mở rộng chi tiết, cuộn chuột để zoom, kéo thả để di chuyển.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mind Map Toolbar -->
+        <div class="card card-flat mb-4 p-3" style="background: var(--bg-card); border: 1px solid var(--border);">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <!-- Left: Work Selector & Dual Mode Switcher -->
+            <div class="flex items-center gap-3 flex-wrap">
+              <!-- Mode Toggle: Canvas vs Outline -->
+              <div class="mm-view-mode-toggle flex items-center p-1 rounded-xl" style="background: var(--bg-tertiary); border: 1px solid var(--border);">
+                <button id="mm-tab-canvas" class="btn btn-sm active" onclick="MindMap.setViewMode('canvas')" title="Xem sơ đồ phân nhánh SVG trực quan" style="font-size: 12.5px; padding: 6px 12px;">
+                  <i data-lucide="waypoints" style="width: 14px; height: 14px;"></i>
+                  <span>Sơ đồ SVG</span>
+                </button>
+                <button id="mm-tab-outline" class="btn btn-sm btn-ghost" onclick="MindMap.setViewMode('outline')" title="Xem toàn bộ 6 nhánh và tri thức chi tiết chuẩn 9+ trực tiếp" style="font-size: 12.5px; padding: 6px 12px;">
+                  <i data-lucide="layout-grid" style="width: 14px; height: 14px;"></i>
+                  <span>Bảng Tri Thức 9+</span>
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <label style="font-size: 13px; font-weight: 600; color: var(--text-secondary); white-space: nowrap;">
+                  <i data-lucide="book-open" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
+                  Tác phẩm:
+                </label>
+                <select id="mm-work-selector" class="home-search-input" style="height: 38px; padding: 0 12px; font-size: 13px; max-width: 320px; min-width: 200px;" onchange="MindMap.render(parseInt(this.value))">
+                  <!-- Options injected by JS -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Right: Zoom & Action Controls -->
+            <div class="flex items-center gap-2 flex-wrap" id="mm-canvas-actions">
+              <div class="flex items-center gap-1 px-2 py-1 rounded-lg" style="background: var(--bg-tertiary); border: 1px solid var(--border);">
+                <button class="icon-btn" onclick="MindMap.zoomOut()" title="Thu nhỏ" style="width: 30px; height: 30px;">
+                  <i data-lucide="minus" style="width: 14px; height: 14px;"></i>
+                </button>
+                <span id="mm-zoom-level" style="font-size: 12px; font-weight: 600; color: var(--text-secondary); min-width: 42px; text-align: center;">100%</span>
+                <button class="icon-btn" onclick="MindMap.zoomIn()" title="Phóng to" style="width: 30px; height: 30px;">
+                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+                </button>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="MindMap.expandAll()" title="Mở rộng tất cả 6 nhánh">
+                <i data-lucide="unfold-vertical" style="width: 14px; height: 14px;"></i>
+                <span>Mở rộng tất cả</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="MindMap.collapseAll()" title="Thu gọn nhánh">
+                <i data-lucide="fold-vertical" style="width: 14px; height: 14px;"></i>
+                <span>Thu gọn</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="MindMap.resetView()" title="Đặt lại vị trí và phóng to">
+                <i data-lucide="maximize-2" style="width: 14px; height: 14px;"></i>
+                <span>Đặt lại</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="MindMap.exportSvg()" title="Tải xuống sơ đồ tư duy dạng ảnh SVG vector sắc nét">
+                <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+                <span>Tải SVG</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" id="mm-fullscreen-btn" onclick="MindMap.toggleFullscreen()" title="Xem toàn màn hình">
+                <i data-lucide="expand" style="width: 14px; height: 14px;"></i>
+                <span>Toàn màn hình</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mind Map SVG Canvas Mode -->
+        <div id="mm-canvas-wrapper" class="card card-flat" style="background: var(--bg-card); border: 1px solid var(--border); position: relative; overflow: hidden; border-radius: var(--radius-lg);">
+          <div id="mm-svg-container" class="mm-svg-container" style="width: 100%; height: 68vh; min-height: 520px; position: relative;">
+            <!-- SVG injected by MindMap.render() -->
+            <div class="mm-empty-state">
+              <i data-lucide="waypoints" style="width: 48px; height: 48px; color: var(--text-tertiary); margin-bottom: 12px;"></i>
+              <p style="color: var(--text-tertiary); font-size: 14px;">Chọn một tác phẩm ở thanh công cụ phía trên để hiện Mind Map tương tác</p>
+            </div>
+          </div>
+          <!-- Legend -->
+          <div class="mm-legend" style="position: absolute; bottom: 16px; left: 16px; display: flex; flex-wrap: wrap; gap: 8px; z-index: 2;">
+            <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg" style="background: var(--glass-bg); backdrop-filter: blur(8px); border: 1px solid var(--border); font-size: 11px;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #2563EB; display: inline-block;"></span>
+              <span style="color: var(--text-secondary);">Tác giả</span>
+            </div>
+            <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg" style="background: var(--glass-bg); backdrop-filter: blur(8px); border: 1px solid var(--border); font-size: 11px;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #D97706; display: inline-block;"></span>
+              <span style="color: var(--text-secondary);">Hoàn cảnh</span>
+            </div>
+            <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg" style="background: var(--glass-bg); backdrop-filter: blur(8px); border: 1px solid var(--border); font-size: 11px;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #059669; display: inline-block;"></span>
+              <span style="color: var(--text-secondary);">Chủ đề</span>
+            </div>
+            <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg" style="background: var(--glass-bg); backdrop-filter: blur(8px); border: 1px solid var(--border); font-size: 11px;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #B65335; display: inline-block;"></span>
+              <span style="color: var(--text-secondary);">Nội dung</span>
+            </div>
+            <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg" style="background: var(--glass-bg); backdrop-filter: blur(8px); border: 1px solid var(--border); font-size: 11px;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #7C3AED; display: inline-block;"></span>
+              <span style="color: var(--text-secondary);">Nghệ thuật</span>
+            </div>
+            <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg" style="background: var(--glass-bg); backdrop-filter: blur(8px); border: 1px solid var(--border); font-size: 11px;">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: #16364A; display: inline-block;"></span>
+              <span style="color: var(--text-secondary);">Dẫn chứng</span>
+            </div>
+          </div>
+          <!-- Hint -->
+          <div style="position: absolute; bottom: 16px; right: 16px; z-index: 2;">
+            <div class="flex items-center gap-1.5 px-3 py-2 rounded-lg" style="background: var(--glass-bg); backdrop-filter: blur(8px); border: 1px solid var(--border); font-size: 11px; color: var(--text-tertiary);">
+              <i data-lucide="sparkles" style="width: 13px; height: 13px; color: #D97706;"></i>
+              <span>Thẻ hiển thị đầy đủ tri thức & dẫn chứng · Nhấn sao chép hoặc mở rộng toàn bộ</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mind Map Outline Knowledge Board Mode (Full Direct Visibility) -->
+        <div id="mm-outline-container" class="mm-outline-container hidden">
+          <!-- Injected by MindMap.render() -->
+        </div>
+
+        <!-- Mind Map Node Detail Modal -->
+        <div id="mm-detail-modal" class="modal-overlay" style="z-index: 9999;" onclick="if(event.target === this) MindMap.closeDetailModal()">
+          <div class="modal-content p-6" style="max-width: 640px; border-radius: var(--radius-lg); background: var(--bg-card); border: 1px solid var(--border);">
+            <div class="flex items-start justify-between gap-3 mb-3.5 pb-3" style="border-bottom: 1px solid var(--border);">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span id="mm-modal-tag" class="badge" style="background: var(--accent); color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 6px;">Luận điểm 1</span>
+                <span id="mm-modal-branch" class="text-xs font-semibold" style="color: var(--text-secondary);">Nội dung phân tích</span>
+              </div>
+              <button class="icon-btn" onclick="MindMap.closeDetailModal()" title="Đóng (Esc)" style="width: 32px; height: 32px; border-radius: 8px;">
+                <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+              </button>
+            </div>
+            
+            <h3 id="mm-modal-heading" style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-bottom: 12px; line-height: 1.35;"></h3>
+            
+            <div id="mm-modal-body" class="mb-4" style="font-size: 14px; line-height: 1.75; color: var(--text-secondary); white-space: pre-line; max-height: 38vh; overflow-y: auto; padding-right: 6px;"></div>
+            
+            <div id="mm-modal-evidence-box" class="p-3.5 rounded-xl mb-3 hidden" style="background: var(--bg-tertiary); border-left: 3px solid var(--accent);">
+              <div class="flex items-center gap-1.5 mb-1 text-xs font-bold uppercase tracking-wider" style="color: var(--accent);">
+                <i data-lucide="quote" style="width: 13px; height: 13px;"></i>
+                <span>Dẫn chứng & Dữ liệu cốt lõi</span>
+              </div>
+              <p id="mm-modal-evidence-text" style="font-size: 13px; font-style: italic; color: var(--text-primary); margin: 0; line-height: 1.6;"></p>
+            </div>
+
+            <div id="mm-modal-commentary-box" class="p-3.5 rounded-xl mb-4 hidden" style="background: linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(245, 158, 11, 0.05)); border: 1px solid rgba(245, 158, 11, 0.25);">
+              <div class="flex items-center gap-1.5 mb-1 text-xs font-bold uppercase tracking-wider" style="color: #D97706;">
+                <i data-lucide="sparkles" style="width: 13px; height: 13px;"></i>
+                <span>Lời bình văn học nâng cao (Chuẩn Barem 9+)</span>
+              </div>
+              <p id="mm-modal-commentary-text" style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin: 0;"></p>
+            </div>
+
+            <div class="flex items-center justify-between gap-3 pt-3" style="border-top: 1px solid var(--border);">
+              <button class="btn btn-ghost btn-sm" onclick="MindMap.copyModalContent()" title="Sao chép toàn bộ phân tích này">
+                <i data-lucide="copy" style="width: 14px; height: 14px;"></i>
+                <span>Sao chép ý này</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="MindMap.closeDetailModal()">
+                <span>Đóng lại</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   </main>
 
@@ -1843,6 +2033,10 @@
       <button class="mobile-nav-item" data-mobile-view="history" onclick="app.navigateTo('history')">
         <i data-lucide="history" style="width: 20px; height: 20px;"></i>
         <span>Lịch sử</span>
+      </button>
+      <button class="mobile-nav-item" data-mobile-view="mindmap" onclick="app.navigateTo('mindmap')">
+        <i data-lucide="waypoints" style="width: 20px; height: 20px;"></i>
+        <span>Bản đồ tư duy</span>
       </button>
     </div>
   </nav>
@@ -2128,6 +2322,7 @@
   <!-- ============================================================ -->
   <script src="js/data.js?v=20261018_fix_all_v1"></script>
   <script src="js/book3d.js?v=20261018_fix_all_v1"></script>
-  <script src="js/app.js?v=20261018_fix_all_v1"></script>
+  <script src="js/mindmap.js?v=20261020_mindmap_pro_v2"></script>
+  <script src="js/app.js?v=20261020_mindmap_pro_v2"></script>
 </body>
 </html>

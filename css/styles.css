@@ -5008,4 +5008,223 @@ html:not(.dark) .pdf-preview-viewport {
   }
 }
 
+/* ============================================================ */
+/* MODULE: MIND MAP TƯƠNG TÁC SVG (INTERACTIVE MIND MAP)        */
+/* ============================================================ */
 
+.mm-svg-container {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg, 16px);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.mm-svg-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.3s ease;
+}
+
+.mm-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 480px;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  color: var(--text-tertiary);
+}
+
+.mm-empty-state p {
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 380px;
+  line-height: 1.6;
+}
+
+/* Center node animations */
+@keyframes mm-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.65;
+  }
+}
+
+@keyframes mm-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mm-center-glow {
+  animation: mm-pulse 3.5s ease-in-out infinite;
+  transform-origin: 0px 0px;
+  pointer-events: none;
+}
+
+.mm-center-ring {
+  animation: mm-spin 30s linear infinite;
+  transform-origin: 0px 0px;
+  pointer-events: none;
+}
+
+.mm-center-circle {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mm-center-node:hover .mm-center-circle {
+  transform: scale(1.04);
+  transform-origin: 0px 0px;
+}
+
+/* Branch Nodes */
+.mm-branch-node {
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+}
+
+.mm-branch-node rect.mm-node-bg {
+  transition: stroke 0.25s ease, stroke-width 0.25s ease, filter 0.25s ease;
+}
+
+.mm-branch-node:hover rect.mm-node-bg {
+  stroke-width: 2.5px !important;
+}
+
+.mm-branch-node text {
+  transition: fill 0.2s ease;
+}
+
+/* Child Nodes */
+.mm-child-bg {
+  transition: stroke 0.2s ease, stroke-width 0.2s ease, fill 0.2s ease;
+}
+
+/* Legend & overlays */
+.mm-legend {
+  pointer-events: auto;
+  max-width: calc(100% - 32px);
+}
+
+.mm-legend > div {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.mm-legend > div:hover {
+  transform: translateY(-1px);
+}
+
+/* Dark Mode Overrides for Mind Map */
+.dark .mm-svg-container {
+  background: #0B111A;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .mm-child-bg {
+  fill: #16202E !important;
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 1024px) {
+  .mm-svg-container {
+    height: 60vh !important;
+    min-height: 420px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mm-svg-container {
+    height: 52vh !important;
+    min-height: 360px !important;
+  }
+  
+  .mm-legend {
+    display: none !important;
+  }
+  
+  #view-mindmap .card-flat.mb-4.p-3 .flex.justify-between {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  #view-mindmap #mm-work-selector {
+    max-width: 100% !important;
+    width: 100%;
+  }
+}
+
+.mm-child-node {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mm-child-node:hover {
+  transform: translateY(-2px);
+}
+
+#mm-modal-body::-webkit-scrollbar {
+  width: 5px;
+}
+
+#mm-modal-body::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+/* Dual Mode Toggle */
+.mm-view-mode-toggle button {
+  transition: all 0.2s ease;
+  border-radius: var(--radius-md, 8px);
+}
+
+.mm-view-mode-toggle button.active {
+  background: var(--bg-card) !important;
+  color: var(--accent) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-weight: 700;
+}
+
+/* Outline Knowledge Board */
+.mm-outline-container {
+  animation: fadeIn 0.3s ease;
+}
+
+.mm-outline-item-card {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.mm-outline-item-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  border-color: var(--accent);
+}
+
+.dark .mm-outline-item-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 768px) {
+  .mm-outline-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .mm-outline-header {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+}

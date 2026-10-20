@@ -215,6 +215,7 @@
       this.initKeyboardShortcuts();
       this.initBook3D();
       this.initExamCountdown();
+      this.initMindMapModule();
       this.updateExamHistoryCountBadge();
       this.renderIcons();
 
@@ -231,7 +232,7 @@
       // Restore initial view from URL hash if available
       try {
         const initialHash = window.location.hash.replace(/^#/, '');
-        const validViews = ['dashboard', 'works', 'exam', 'analyzer', 'generator', 'exams-bank', 'history'];
+        const validViews = ['dashboard', 'works', 'exam', 'analyzer', 'generator', 'exams-bank', 'history', 'mindmap'];
         if (initialHash && validViews.includes(initialHash)) {
           this.navigateTo(initialHash, {}, false);
         }
@@ -492,7 +493,7 @@
       // Synchronize browser history and hash changes
       window.addEventListener('hashchange', () => {
         const hash = window.location.hash.replace(/^#/, '');
-        const validViews = ['dashboard', 'works', 'exam', 'analyzer', 'generator', 'exams-bank', 'history'];
+        const validViews = ['dashboard', 'works', 'exam', 'analyzer', 'generator', 'exams-bank', 'history', 'mindmap'];
         if (hash && validViews.includes(hash) && hash !== state.currentView) {
           this.navigateTo(hash, {}, false);
         }
@@ -579,6 +580,10 @@
         this.renderHistoryView();
       }
 
+      if (viewName === 'mindmap') {
+        this.initMindMapView();
+      }
+
       // Control 3D Textbook animation based on view visibility
       if (window.Book3D) {
         if (viewName === 'dashboard') {
@@ -654,6 +659,10 @@
         history: {
           breadcrumb: 'Lịch sử làm bài',
           title: 'Lịch sử bài thi thử & Đánh giá năng lực 2026'
+        },
+        mindmap: {
+          breadcrumb: 'Bản đồ tư duy tương tác',
+          title: 'Bản đồ tư duy 18 tác phẩm Ngữ văn 12'
         }
       };
 
@@ -4852,6 +4861,46 @@
           }
         }
       });
+    },
+
+    // ──────────────────────────────────────────
+    // Module: Mind Map Tương Tác
+    // ──────────────────────────────────────────
+    initMindMapModule() {
+      // Populate work selector dropdown
+      const sel = document.getElementById('mm-work-selector');
+      if (sel && window.APP_DATA && APP_DATA.works) {
+        sel.innerHTML = '<option value="" disabled selected>-- Chọn tác phẩm --</option>';
+        APP_DATA.works.forEach(w => {
+          const opt = document.createElement('option');
+          opt.value = w.id;
+          opt.textContent = `${w.title} – ${w.author}`;
+          sel.appendChild(opt);
+        });
+      }
+    },
+
+    initMindMapView() {
+      if (window.MindMap) {
+        const targetId = state.works.activeWorkId || MindMap.state.selectedWorkId || (APP_DATA && APP_DATA.works && APP_DATA.works[0] ? APP_DATA.works[0].id : 1);
+        MindMap.render(targetId);
+      }
+      this.renderIcons();
+    },
+
+    openMindMapForWork(workId) {
+      this.navigateTo('mindmap');
+      setTimeout(() => {
+        if (window.MindMap) MindMap.render(workId);
+      }, 80);
+    },
+
+    openMindMapForCurrentWork() {
+      if (state.works.activeWorkId) {
+        this.openMindMapForWork(state.works.activeWorkId);
+      } else {
+        this.navigateTo('mindmap');
+      }
     }
   };
 
