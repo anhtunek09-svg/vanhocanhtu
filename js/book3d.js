@@ -1,7 +1,7 @@
 /**
  * VĂN 12 PRO LAB — 3D TEXTBOOK CONTROLLER (Three.js WebGL)
  * Realistic 3D Model of "SGK Ngữ văn 12 - Kết nối tri thức với cuộc sống (Tập 1)"
- * Developer: Đỗ Anh Tú — THPT Yên Lãng
+ * Developer: Đỗ Anh Tú & Nguyễn Duy Huy — THPT Yên Lãng
  */
 
 (function (window) {
